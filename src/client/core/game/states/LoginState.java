@@ -6,18 +6,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-/**
- * State for when player opens menu while in game (Bu nasil cumle la).
- * @author Mefu
- */
-public class PlayMenuState extends BasicGameState {
+public class LoginState extends BasicGameState{
 
-	private int id ;
+	private int id;
 
-	public PlayMenuState(int id){
+	public LoginState(int id){
 		this.id = id;
 	}
-
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 
 	}

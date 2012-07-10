@@ -1,6 +1,6 @@
 package client.core.entities.player;
 
-import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.Image;
 
 import client.core.components.player.PlayerInteractionComponent;
 import client.core.components.player.PlayerMoveComponent;
@@ -18,11 +18,13 @@ public class Player extends LivingEntity {
 	private PlayerData pd;
 	private boolean activePlayer;
 
-	public Player(int id, PlayerData pd, Vector2f pos, boolean activePlayer) {
+	public Player(int id, PlayerData pd, int posx, int posy, Image img, boolean activePlayer) {
 		super(id);
 		this.pd = pd;
 		this.activePlayer = activePlayer;
-		this.setPosition(pos);
+		this.setImage(img);
+		this.setPosX(posx);
+		this.setPosY(posy);
 		if(activePlayer){
 			this.addComponent(new PlayerMoveComponent(id));
 			this.addComponent(new PlayerInteractionComponent(id));

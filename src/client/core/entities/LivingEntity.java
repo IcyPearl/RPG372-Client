@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import client.core.components.Component;
@@ -21,9 +21,12 @@ public class LivingEntity {
 
 	private int id;
 
-	private Vector2f position;
+	private int posx;
+	private int posy;
 	private float scale;
 	private float rotation;
+	
+	private Image img;
 
 	RenderComponent renderComponent = null;
 
@@ -34,11 +37,20 @@ public class LivingEntity {
 
 		components = new ArrayList<Component>();
 
-		position = new Vector2f(0,0);
+		posx = 0;
+		posy = 0;
 		scale = 1.0f;
 		rotation = 0.0f;
 	}
 
+	public Image getImage(){
+		return img;
+	}
+	
+	public void setImage(Image img){
+		this.img = img;
+	}
+	
 	public void addComponent(Component component){
 		if(RenderComponent.class.isInstance(component))
 			renderComponent = (RenderComponent) component;
@@ -55,14 +67,22 @@ public class LivingEntity {
 		return null;
 	}
 
-	public Vector2f getPosition() {
-		return position;
+	public int getPosX() {
+		return posx;
 	}
 
-	public void setPosition(Vector2f position) {
-		this.position = position;
+	public void setPosX(int posx) {
+		this.posx = posx;
+	}
+	
+	public int getPosY() {
+		return posy;
 	}
 
+	public void setPosY(int posy) {
+		this.posy = posy;
+	}
+	
 	public float getScale() {
 		return scale;
 	}

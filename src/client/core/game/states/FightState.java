@@ -14,31 +14,25 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class FightState extends BasicGameState {
 
-	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
-			throws SlickException {
-		// TODO Auto-generated method stub
-		
+	private int id;
+
+	public FightState(int id){
+		this.id = id;
 	}
 
-	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
-			throws SlickException {
-		// TODO Auto-generated method stub
-		
+	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
+
 	}
 
-	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
-			throws SlickException {
-		// TODO Auto-generated method stub
-		
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
+
 	}
 
-	@Override
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
+
+	}
+
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
-
 }
