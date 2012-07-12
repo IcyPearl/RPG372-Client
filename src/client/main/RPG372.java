@@ -8,6 +8,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import client.core.entities.npc.Mob;
+import client.core.entities.npc.MobData;
 import client.core.entities.player.Player;
 import client.core.entities.player.PlayerData;
 import client.core.game.GameInstance;
@@ -51,14 +53,19 @@ public class RPG372 extends StateBasedGame {
 
 	public static void initTestGameInstance() throws SlickException{
 		PlayerData pd = new PlayerData();
+		MobData md = new MobData();
 		pd.setLevel(5);
 		pd.setName("Mefu");
+		md.setLevel(7);
+		md.setName("Jordan");
 		int posx = 0;
 		int posy = 0;
 		Image img = new Image("client/data/player.png");
 		Player pl = new Player(111, pd, posx, posy, img, true);
+		Mob mob = new Mob(213, md, 3, 3, new Image("client/data/mob.png"));
 		gameInstance = new GameInstance();
 		gameInstance.setCurrentPlayer(pl);
+		gameInstance.addMob(mob);
 		gameInstance.setMap(new Map(1,1));
 		try {
 			gameInstance.getMap().readMap("src/client/data/map1.txt");

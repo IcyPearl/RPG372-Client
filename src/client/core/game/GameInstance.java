@@ -1,6 +1,7 @@
 package client.core.game;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import client.core.entities.npc.Mob;
 import client.core.entities.npc.Vendor;
@@ -23,9 +24,35 @@ public class GameInstance {
 	private ArrayList<Vendor> vendors;
 	
 	public GameInstance(){
-		
+		otherPlayers = new ArrayList<Player>();
+		mobs = new ArrayList<Mob>();
+		vendors = new ArrayList<Vendor>();
 	}
 
+	public Mob getNearestMob(){
+		Mob mob = null;
+		int i = currentPlayer.getPosX();
+		int j = currentPlayer.getPosY();
+		ListIterator<Mob> iterator = mobs.listIterator();
+		while(iterator.hasNext()){
+			Mob current = iterator.next();
+			if(isNear(i,j,current.getPosX(),current.getPosY())){
+				mob = current;
+				break;
+			}
+		}
+		return mob;
+	}
+	
+	private boolean isNear(int i1, int j1, int i2, int j2){
+		int idif = Math.abs(i1-i2);
+		int jdif = Math.abs(j1-j2);
+		
+		if(idif > -1 && idif < 2 && jdif > -1 && jdif < 2)
+			return true;
+		return false;
+	}
+	
 	public Map getMap() {
 		return map;
 	}

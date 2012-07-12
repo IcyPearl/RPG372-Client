@@ -6,9 +6,7 @@ package client.core.entities.player;
  */
 
 public class PlayerData {
-
-	private int maxHealth;
-	private int maxMana;
+	
 	private int level;
 	
 	private String name;
@@ -17,20 +15,33 @@ public class PlayerData {
 		
 	}
 
-	public int getMaxHealth() {
-		return maxHealth;
+	public int getDamage(){
+		int dmg = 0;
+		int rand = (int) (Math.random() * 100);
+		if(rand < 50){
+			dmg = level;
+		}else if(rand < 60){
+			dmg = (int) (level * 1.2);
+		}else if(rand < 70){
+			dmg = (int) (level * 1.4);
+		}else if(rand < 80){
+			dmg = (int) (level * 1.6);
+		}else if(rand < 90){
+			dmg = (int) (level * 1.8);
+		}else if(rand < 96){
+			dmg = (int) (level * 2.0);
+		}else if(rand < 100){
+			dmg = (int) (level * 4.0);
+		}	
+		return dmg;
 	}
-
-	public void setMaxHealth(int maxHealth) {
-		this.maxHealth = maxHealth;
+	
+	public int getMaxHealth() {
+		return level * 10;
 	}
 
 	public int getMaxMana() {
-		return maxMana;
-	}
-
-	public void setMaxMana(int maxMana) {
-		this.maxMana = maxMana;
+		return level * 50;
 	}
 
 	public int getLevel() {

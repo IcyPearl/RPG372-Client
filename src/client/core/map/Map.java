@@ -74,4 +74,12 @@ public class Map {
 		this.y = y;
 	}
 	
+	public boolean checkCollision(int i, int j){
+		if(this.get(i, j) == 1){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 }

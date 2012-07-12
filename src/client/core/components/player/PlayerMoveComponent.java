@@ -44,8 +44,10 @@ public class PlayerMoveComponent extends Component{
 			if(nposy >= limy)
 				nposy = limy - 1;
 		} 
-		this.owner.setPosX(nposx);
-		this.owner.setPosY(nposy);
+		if(RPG372.gameInstance.getMap().checkCollision(nposx, nposy)){
+			this.owner.setPosX(nposx);
+			this.owner.setPosY(nposy);
+		}
 	}
 
 }

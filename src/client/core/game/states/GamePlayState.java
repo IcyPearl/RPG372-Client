@@ -1,13 +1,15 @@
 package client.core.game.states;
 
+import java.util.ListIterator;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import client.core.entities.npc.Mob;
 import client.main.RPG372;
 
 /**
@@ -49,18 +51,18 @@ public class GamePlayState extends BasicGameState {
 			}
 		}
 		RPG372.gameInstance.getCurrentPlayer().render(arg0, arg1, arg2);
+		ListIterator<Mob> iterator = RPG372.gameInstance.getMobs().listIterator();
+		while(iterator.hasNext()){
+			iterator.next().render(arg0, arg1, arg2);
+		}
 	}
 	
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		Input in = arg0.getInput();
-		if(in.isKeyDown(Input.KEY_L))
-		{
-			arg1.enterState(RPG372.FIGHT);
-			
-		}
 		RPG372.gameInstance.getCurrentPlayer().update(arg0, arg1, arg2);
-		
-		
+		ListIterator<Mob> iterator = RPG372.gameInstance.getMobs().listIterator();
+		while(iterator.hasNext()){
+			iterator.next().update(arg0, arg1, arg2);
+		}
 	}
 	
 	public int getID() {
