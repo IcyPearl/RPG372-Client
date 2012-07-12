@@ -28,19 +28,19 @@ public class PlayerMoveComponent extends Component{
 		int limx = RPG372.gameInstance.getMap().getX();
 		int limy = RPG372.gameInstance.getMap().getY();
 		if(in.isKeyPressed(Input.KEY_A)){
-			nposx -= 1*delta;
+			nposx -= 1;
 			if(nposx < 0)
 				nposx = 0;
 		}else if(in.isKeyPressed(Input.KEY_D)){
-			nposx += 1*delta;
+			nposx += 1;
 			if(nposx >= limx)
 				nposx = limx - 1;
 		}else if(in.isKeyPressed(Input.KEY_W)){
-			nposy -= 1*delta; 
+			nposy -= 1; 
 			if(nposy < 0)
 				nposy = 0;
 		}else if(in.isKeyPressed(Input.KEY_S)){
-			nposy += 1*delta;
+			nposy += 1;
 			if(nposy >= limy)
 				nposy = limy - 1;
 		} 
