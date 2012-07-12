@@ -7,5 +7,6 @@
 .settings/
 doc/
 .project
+bin/
 
 
