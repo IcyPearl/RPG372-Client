@@ -29,6 +29,7 @@ public class RPG372 extends StateBasedGame {
 	public static final int PLAYMENU = 4;
 	public static final int TRADE = 5;
 	public static final int FIGHT = 6;
+	public static final int REGISTER = 7;
 	public static GameInstance gameInstance;
 	
 	public RPG372() {
@@ -49,6 +50,7 @@ public class RPG372 extends StateBasedGame {
 		this.addState(new GamePlayState(GAMEPLAY));
 		this.addState(new FightState(FIGHT));
 		this.addState(new TradeState(TRADE));
+		this.addState(new RegisterState(REGISTER));
 	}
 
 	public static void initTestGameInstance() throws SlickException{
