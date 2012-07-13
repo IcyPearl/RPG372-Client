@@ -23,18 +23,28 @@ public class GamePlayState extends BasicGameState {
 
 	private int id;
 	
-	private Image map0;
-	private Image map1;
+	private Image[] terrains;
 	
 	
 	public GamePlayState(int id){
 		this.id = id;
+		terrains = new Image[12];
 	}
 	
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		RPG372.initTestGameInstance();
-		map0 = new Image("client/data/map/map0.png");
-		map1 = new Image("client/data/map/map1.png");
+		terrains[0] = new Image("client/data/map/Terrain0.png");
+		terrains[1] = new Image("client/data/map/Terrain1.png");
+		terrains[2] = new Image("client/data/map/Terrain2.png");
+		terrains[3] = new Image("client/data/map/Terrain3.png");
+		terrains[4] = new Image("client/data/map/Terrain4.png");
+		terrains[5] = new Image("client/data/map/Terrain5.png");
+		terrains[6] = new Image("client/data/map/Terrain6.png");
+		terrains[7] = new Image("client/data/map/Terrain7.png");
+		terrains[8] = new Image("client/data/map/Terrain8.png");
+		terrains[9] = new Image("client/data/map/Terrain9.png");
+		terrains[10] = new Image("client/data/map/Terrain10.png");
+		terrains[11] = new Image("client/data/map/Terrain11.png");
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
@@ -43,11 +53,7 @@ public class GamePlayState extends BasicGameState {
 		for(int i = 0 ; i < mapx ; i++){
 			for(int j = 0 ; j < mapy ; j++){
 				int type = RPG372.gameInstance.getMap().get(i, j);
-				if(type == 0){
-					map0.draw(i*100, j*100);
-				}else if(type == 1){
-					map1.draw(i*100, j*100);
-				}
+				terrains[type].draw(i*100, j*100);
 			}
 		}
 		RPG372.gameInstance.getCurrentPlayer().render(arg0, arg1, arg2);

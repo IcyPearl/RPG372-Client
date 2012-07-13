@@ -62,9 +62,9 @@ public class RPG372 extends StateBasedGame {
 		md.setName("Jordan");
 		int posx = 0;
 		int posy = 0;
-		Image img = new Image("client/data/player/player.png");
+		Image img = new Image("client/data/player/player1.png");
 		Player pl = new Player(111, pd, posx, posy, img, true);
-		Mob mob = new Mob(213, md, 3, 3, new Image("client/data/mob/mob.png"));
+		Mob mob = new Mob(213, md, 3, 3, new Image("client/data/mob/mob1.png"));
 		gameInstance = new GameInstance();
 		gameInstance.setCurrentPlayer(pl);
 		gameInstance.addMob(mob);

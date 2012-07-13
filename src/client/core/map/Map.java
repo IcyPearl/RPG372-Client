@@ -75,7 +75,7 @@ public class Map {
 	}
 	
 	public boolean checkCollision(int i, int j){
-		if(this.get(i, j) == 1){
+		if(this.get(i, j) > 3){
 			return false;
 		}else{
 			return true;
