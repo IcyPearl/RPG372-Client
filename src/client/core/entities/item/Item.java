@@ -1,11 +1,50 @@
 package client.core.entities.item;
 
-import client.core.entities.NonLivingEntity;
+import org.newdawn.slick.Image;
 
 /**
  * Name is self-explanatory.
  * @author Mefu
  */
-public class Item extends NonLivingEntity{
+public class Item {
+	
+	private Image icon;
+	private int id;
+	private int value;
+	
+	private String name;
+	
+	
+	public Item(int id){
+		this.id = id;
+	}
 
+	public int getId() {
+		return id;
+	}
+
+	public Image getIcon() {
+		return icon;
+	}
+
+	public void setIcon(Image icon) {
+		this.icon = icon;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }

@@ -33,8 +33,8 @@ public class GamePlayState extends BasicGameState {
 	
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		RPG372.initTestGameInstance();
-		map0 = new Image("client/data/map0.png");
-		map1 = new Image("client/data/map1.png");
+		map0 = new Image("client/data/map/map0.png");
+		map1 = new Image("client/data/map/map1.png");
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {

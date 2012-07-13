@@ -1,5 +1,12 @@
 package client.core.entities.player;
 
-public class PlayerInventory {
+import client.core.entities.LivingEntity;
+import client.core.entities.item.Inventory;
+
+public class PlayerInventory extends Inventory {
+
+	public PlayerInventory(LivingEntity owner) {
+		super(owner);
+	}
 
 }

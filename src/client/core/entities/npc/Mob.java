@@ -16,14 +16,17 @@ public class Mob extends LivingEntity {
 	private MobData md;
 	private long moved;
 	
+	public static final int MOBMOVECOMP = 1;
+	public static final int MOBRENDERCOMP = 2;
+	
 	public Mob(int id, MobData md, int posx, int posy, Image img) {
 		super(id);
 		this.md = md;
 		this.setPosX(posx);
 		this.setPosY(posy);
 		this.setImage(img);
-		this.addComponent(new MobMoveComponent(id));
-		this.addComponent(new MobRenderComponent(id));
+		this.addComponent(new MobMoveComponent(MOBMOVECOMP));
+		this.addComponent(new MobRenderComponent(MOBRENDERCOMP));
 		moved = -1;
 	}
 

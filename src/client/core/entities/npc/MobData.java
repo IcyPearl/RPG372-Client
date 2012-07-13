@@ -10,6 +10,8 @@ public class MobData {
 private int level;
 	
 	private String name;
+	private MobInventory inv;
+	
 	
 	public MobData(){
 		
@@ -58,6 +60,14 @@ private int level;
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public MobInventory getInv() {
+		return inv;
+	}
+
+	public void setInv(MobInventory inv) {
+		this.inv = inv;
 	}
 	
 }

@@ -30,9 +30,9 @@ public class MainMenuState extends BasicGameState {
 	}
 	
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		menubg = new Image("client/data/menubg.png");
-		start = new Image("client/data/start.png");
-		exit = new Image("client/data/exit.png");
+		menubg = new Image("client/data/menu/menubg.png");
+		start = new Image("client/data/menu/start.png");
+		exit = new Image("client/data/menu/exit.png");
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {

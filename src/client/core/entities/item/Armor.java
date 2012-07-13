@@ -6,4 +6,18 @@ package client.core.entities.item;
  */
 public class Armor extends Item {
 
+	private int defence;
+	
+	public Armor(int id) {
+		super(id);
+	}
+
+	public int getDefence() {
+		return defence;
+	}
+
+	public void setDefence(int defence) {
+		this.defence = defence;
+	}
+
 }

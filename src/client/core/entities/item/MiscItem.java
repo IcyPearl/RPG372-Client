@@ -5,5 +5,9 @@ package client.core.entities.item;
  * @author Mefu
  */
 public class MiscItem extends Item {
+	
+	public MiscItem(int id) {
+		super(id);
+	}
 
 }

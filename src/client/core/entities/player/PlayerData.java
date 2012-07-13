@@ -8,8 +8,9 @@ package client.core.entities.player;
 public class PlayerData {
 	
 	private int level;
-	
 	private String name;
+	
+	private PlayerInventory inv;
 	
 	public PlayerData(){
 		
@@ -58,6 +59,14 @@ public class PlayerData {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public PlayerInventory getInv() {
+		return inv;
+	}
+
+	public void setInv(PlayerInventory inv) {
+		this.inv = inv;
 	}
 	
 }
