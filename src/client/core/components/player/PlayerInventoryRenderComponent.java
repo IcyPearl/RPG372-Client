@@ -54,7 +54,6 @@ public class PlayerInventoryRenderComponent extends RenderComponent {
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
 		Input in = gc.getInput();
 		if(in.isKeyPressed(Input.KEY_I)){
-			System.out.println("I pressed");
 			if(draw)
 				draw = false;
 			else
