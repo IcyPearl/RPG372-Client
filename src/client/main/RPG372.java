@@ -84,6 +84,8 @@ public class RPG372 extends StateBasedGame {
 		item2.setValue(50);
 		plinv.addItem(item1);
 		plinv.addItem(item2);
+		plinv.addItem(item2);
+		plinv.addItem(item2);
 		Mob mob = new Mob(213, md, 3, 3, new Image("client/data/mob/mob1.png"));
 		Mob mob1 = new Mob(214, md, 5, 6, new Image("client/data/mob/mob4.png"));
 		Vendor vend = new Vendor(231, vd, 10, 10, new Image("client/data/vendor/vendor1.png"));

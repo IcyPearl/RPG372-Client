@@ -46,8 +46,8 @@ public class PlayerInventoryRenderComponent extends RenderComponent {
 
 	private int[] getItemPos(int invx, int invy, int index) {
 		int[] pos = new int[2];
-		pos[0] = invx + 4 + 8 * (index) + (index%4)*32;
-		pos[1] = invy + 2 + 2 * (index) + (index/4)*32;
+		pos[0] = invx + 4 + 7 * (index%4) + (index%4)*32;
+		pos[1] = invy + 2 + 2 * (index/4) + (index/4)*32;
 		return pos;
 	}
 

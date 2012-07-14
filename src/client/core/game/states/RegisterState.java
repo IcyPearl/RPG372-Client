@@ -8,7 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -18,6 +17,7 @@ import client.main.RPG372;
 
 
 
+@SuppressWarnings("deprecation")
 public class RegisterState extends BasicGameState
 {
 	private Font awtFont;
@@ -45,7 +45,6 @@ public class RegisterState extends BasicGameState
 		
 	}
 
-	@SuppressWarnings("deprecation")
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException
 	{
 		txt.render(arg0, arg2);
