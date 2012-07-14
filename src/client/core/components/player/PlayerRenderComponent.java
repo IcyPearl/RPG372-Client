@@ -18,7 +18,7 @@ public class PlayerRenderComponent extends RenderComponent {
 	}
 
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-		this.owner.getImage().draw(this.owner.getPosX() * 100, this.owner.getPosY() * 100);
+		this.owner.getImage().draw(this.owner.getPosX() * 50, this.owner.getPosY() * 50, 0.5f);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {

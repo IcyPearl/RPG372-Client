@@ -28,7 +28,7 @@ public class Map {
 	}
 	
 	public int get(int i, int j){
-		return grid[i][j];
+		return grid[j][i];
 	}
 	
 	public void readMap(String mapFilePath) throws IOException{
@@ -37,13 +37,13 @@ public class Map {
 		String[] stringSize = currentLine.split(" ");
 		int[] size = new int[2];
 		stringToIntArray(stringSize, size);
-		grid = new int[size[0]][size[1]];
+		grid = new int[size[1]][size[0]];
 		this.setX(size[0]);
 		this.setY(size[1]);
 		int i = 0;
 		while((currentLine = bufRead.readLine()) != null){
 			String[] stringLine = currentLine.split(" ");
-			int[] intLine = new int[getY()];
+			int[] intLine = new int[getX()];
 			stringToIntArray(stringLine, intLine);
 			grid[i] = intLine;
 			i++;

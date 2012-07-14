@@ -14,7 +14,7 @@ public class MobRenderComponent extends RenderComponent {
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
 		int posx = this.owner.getPosX();
 		int posy = this.owner.getPosY();
-		this.owner.getImage().draw(posx*100, posy*100);
+		this.owner.getImage().draw(posx*50, posy*50, 0.5f);
 	}
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
 		

@@ -54,7 +54,7 @@ public class GamePlayState extends BasicGameState {
 		for(int i = 0 ; i < mapx ; i++){
 			for(int j = 0 ; j < mapy ; j++){
 				int type = RPG372.gameInstance.getMap().get(i, j);
-				terrains[type].draw(i*100, j*100);
+				terrains[type].draw(i*50, j*50, 0.5f);
 			}
 		}
 		RPG372.gameInstance.getCurrentPlayer().render(arg0, arg1, arg2);

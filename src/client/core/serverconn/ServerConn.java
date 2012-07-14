@@ -1,5 +1,9 @@
 package client.core.serverconn;
 
+import client.core.game.GameInstance;
+import client.main.RPG372;
+
+
 /**
  * Responsible for retrieving current state of game.
  * This state will be initialized with GameInstance class.
@@ -26,7 +30,7 @@ public class ServerConn {
 	 */
 	
 	public static void initialize(String username){
-		
+		RPG372.gameInstance = new GameInstance();
 	}
 	/**
 	 * Should save all informations that created at method initialize.
