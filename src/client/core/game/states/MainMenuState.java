@@ -1,10 +1,14 @@
 package client.core.game.states;
 
+import java.awt.Font;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -14,62 +18,75 @@ import client.main.RPG372;
  * Main menu state.
  * @author Mefu
  */
-public class MainMenuState extends BasicGameState {
-
+@SuppressWarnings("deprecation")
+public class MainMenuState extends BasicGameState
+{
+	private Font awtFont;
+	private TrueTypeFont font;
+	
+	private Image background;
+	private Image box;
+	
 	private int id;
 	
-	private Image menubg;
-	private Image start;
-	private Image exit;
-	
-	private float startScale = 1f;
-	private float exitScale = 1f;
+	private Color color0;
+	private Color color1;
+	private Color color2;
 	
 	public MainMenuState(int id){
 		this.id = id;
 	}
 	
-	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		menubg = new Image("client/data/menu/menubg.png");
-		start = new Image("client/data/menu/start.png");
-		exit = new Image("client/data/menu/exit.png");
+	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
+	{
+		background = new Image("client/data/backgrounds/mainmenubg.jpg");
+		box = new Image("client/data/backgrounds/frame8.png");
+		awtFont = new Font("Times New Roman", Font.BOLD, 24);
+		font = new TrueTypeFont(awtFont, false);
+		
+		color0 = Color.white;
+		color1 = Color.white;
+		color2 = Color.white;
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		menubg.draw(0,0);
-		start.draw(200,200,startScale);
-		exit.draw(200,350,exitScale);
+		background.draw(0,0,1366,768);
+		box.draw(80,480,420,220);
+		font.drawString(140, 520, "Continue Your Adventure",color0);
+		font.drawString(140, 570, "Controls & Options",color1);
+		font.drawString(140, 620, "Quit Game",color2);
 	}
 
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		int mousex, mousey;
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException
+	{
 		Input in = arg0.getInput();
+		int mousex, mousey;
 		mousex = in.getMouseX();
 		mousey = in.getMouseY();
-		if(mousex > 200 && mousey > 200 && mousey < 350){
-			if(startScale < 1.5f)
-				startScale += 0.01f;
-			if(exitScale > 1.0f){
-				exitScale -= 0.01f;
-			}
-			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+		
+		color0 = Color.white;
+		color1 = Color.white;
+		color2 = Color.white;
+		
+		if(mousex > 140 && mousex < 420 && mousey > 520 && mousey < 544) // Continue
+		{
+			color0 = Color.gray;
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				arg1.enterState(RPG372.GAMEPLAY);
 			}
-		}else if(mousex > 200 && mousey > 350 && mousey < 500){
-			if(exitScale < 1.5f)
-				exitScale += 0.01f;
-			if(startScale > 1.0f){
-				startScale -= 0.01f;
+		}
+		if(mousex > 140 && mousex < 360 && mousey > 570 && mousey < 594) // Options & Controls
+		{
+			color1 = Color.gray;
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				//Option state
 			}
-			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+		}
+		if(mousex > 140 && mousex < 270 && mousey > 620 && mousey < 644) // Quit
+		{
+			color2 = Color.gray;
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				System.exit(0);
-			}
-		}else{
-			if(startScale > 1.0f){
-				startScale -= 0.01f;
-			}
-			if(exitScale > 1.0f){
-				exitScale -= 0.01f;
 			}
 		}
 	}

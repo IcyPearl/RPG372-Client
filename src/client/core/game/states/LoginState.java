@@ -58,6 +58,7 @@ public class LoginState extends BasicGameState{
 		txt.render(arg0, arg2);
 		txt2.render(arg0, arg2);
 		
+		
 		font.drawString(100, 200, "LOGIN AREA");
 		font.drawString(100, 300, "Username");
 		font.drawString(100, 400, "Password");
@@ -96,7 +97,7 @@ public class LoginState extends BasicGameState{
 			color1 = new Color(29, 55, 169);
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				this.setInput(false);
-				arg1.enterState(RPG372.GAMEPLAY);
+				arg1.enterState(RPG372.MENU);
 			}
 		}
 		if(mousex > 450 && mousex < 510 && mousey > 500 && mousey < 524) // EXIT
