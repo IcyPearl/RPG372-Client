@@ -21,8 +21,6 @@ public class LoginState extends BasicGameState{
 	private int id;
 	
 	private Font awtFont;
-
-	
 	private Image background;
 	
 	private TrueTypeFont font;
@@ -33,7 +31,7 @@ public class LoginState extends BasicGameState{
 	private Color color0;
 	private Color color1;
 	private Color color2;
-
+	
 	public LoginState(int id){
 		this.id = id;
 	}
@@ -45,6 +43,10 @@ public class LoginState extends BasicGameState{
 		font = new TrueTypeFont(awtFont, false);
 		txt = new TextField(arg0, font, 300, 300, 200 , 40);
 		txt2 = new TextField(arg0, font, 300, 400, 200, 40);
+		
+		txt.setAcceptingInput(true);
+		txt2.setAcceptingInput(true);
+		
 		color0 = Color.white;
 		color1 = Color.white;
 		color2 = Color.white;
@@ -61,7 +63,7 @@ public class LoginState extends BasicGameState{
 		font.drawString(100, 400, "Password");
 		font.drawString(200, 500, "REGISTER" , color0);
 		font.drawString(350, 500, "LOGIN" , color1);
-		font.drawString(500, 500, "EXIT" , color2);
+		font.drawString(450, 500, "EXIT" , color2);
 	}
 
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException
@@ -78,30 +80,40 @@ public class LoginState extends BasicGameState{
 		color1 = Color.white;
 		color2 = Color.white;
 		
-		if(mousex > 100 && mousex < 200 && mousey > 500 && mousey < 524) // REGISTER
+		if(mousex > 200 && mousex < 330 && mousey > 500 && mousey < 524) // REGISTER
 		{
-			color1 = new Color(29, 55, 169);
-			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+			color0 = new Color(29, 55, 169);
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				RegisterState reg = (RegisterState) arg1.getState(RPG372.REGISTER);
+				reg.setInput(true);
+				this.setInput(false);
 				arg1.enterState(RPG372.REGISTER);
 			}
 		}
 		
-		if(mousex > 200 && mousex < 280 && mousey > 500 && mousey < 524) // LOGIN
+		if(mousex > 350 && mousex < 430 && mousey > 500 && mousey < 524) // LOGIN
 		{
 			color1 = new Color(29, 55, 169);
-			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				this.setInput(false);
 				arg1.enterState(RPG372.GAMEPLAY);
 			}
 		}
-		if(mousex > 400 && mousex < 500 && mousey > 500 && mousey < 524) // Iptal
+		if(mousex > 450 && mousex < 510 && mousey > 500 && mousey < 524) // EXIT
 		{
 			color2 = new Color(29, 55, 169);
-			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				this.setInput(false);
 				arg1.enterState(RPG372.MENU);
 			}
 		}
 	}
 
+	public void setInput(boolean a)
+	{
+		txt.setAcceptingInput(a);
+		txt2.setAcceptingInput(a);
+	}
 	public int getID() {
 		return id;
 	}

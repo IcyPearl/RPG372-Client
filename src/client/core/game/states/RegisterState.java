@@ -24,8 +24,8 @@ public class RegisterState extends BasicGameState
 	private Font awtFont;
 	private TrueTypeFont font;
 	
-	private TextField txt;
-	private TextField txt2;
+	private TextField newUsername;
+	private TextField newPassword;
 	
 	private Color color1;
 	private Color color2;
@@ -44,22 +44,28 @@ public class RegisterState extends BasicGameState
 		
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		font = new TrueTypeFont(awtFont, false);
-		txt = new TextField(arg0, font, 300, 300, 200, 40);
-		txt2 = new TextField(arg0, font, 300, 400, 200, 40);
 		
+		newUsername = new TextField(arg0, font, 300, 300, 200, 40);
+		newPassword = new TextField(arg0, font, 300, 400, 200, 40);
+		
+		newUsername.setAcceptingInput(true);
+		newPassword.setAcceptingInput(true);
+		
+		color1 = Color.white;
+		color2 = Color.white;
 	}
 
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException
+	public void render(GameContainer arg0, StateBasedGame arg11, Graphics arg2) throws SlickException
 	{
 		background.draw(0,0,1366,768);
-		txt.render(arg0, arg2);
-		txt2.render(arg0, arg2);
+		newUsername.render(arg0, arg2);
+		newPassword.render(arg0, arg2);
 		
-		font.drawString(100, 200, "KAYIT EKRANI");
-		font.drawString(100, 300, "Kullanici Adi");
-		font.drawString(100, 400, "Sifre");
-		font.drawString(200, 500, "ONAYLA" , color1);
-		font.drawString(400, 500, "IPTAL" , color2);
+		font.drawString(100, 200, "REGISTER AREA");
+		font.drawString(100, 300, "New Username");
+		font.drawString(100, 400, "Password");
+		font.drawString(200, 500, "REGISTER" , color1);
+		font.drawString(400, 500, "CANCEL" , color2);
 	}
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException
 	{
@@ -72,23 +78,33 @@ public class RegisterState extends BasicGameState
 		mousey = in.getMouseY();
 		color1 = Color.white;
 		color2 = Color.white;
-		if(mousex > 200 && mousex < 300 && mousey > 500 && mousey < 524) // ONAYLA
+		if(mousex > 200 && mousex < 330 && mousey > 500 && mousey < 524) // REGISTER
 		{
-			color1 = Color.red;
+			color1 =  new Color(247, 173, 36);
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				this.setInput(false);
+			}
 			//Database iþlemleri
 		}
-		if(mousex > 400 && mousex < 480 && mousey > 500 && mousey < 524) // Iptal
+		if(mousex > 400 && mousex < 510 && mousey > 500 && mousey < 524) // CANCEL
 		{
-			color2 = Color.red;
-			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-				arg1.enterState(RPG372.MENU);
+			color2 = new Color(247, 173, 36);
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				this.setInput(false);
+				LoginState login = (LoginState) arg1.getState(RPG372.LOGIN);
+				login.setInput(true);
+				arg1.enterState(RPG372.LOGIN);
 			}
 		}
 		
 		
 	}
 	
-	
+	public void setInput(boolean a)
+	{
+		newUsername.setAcceptingInput(a);
+		newPassword.setAcceptingInput(a);
+	}
 	public int getID() {
 		return id;
 	}
