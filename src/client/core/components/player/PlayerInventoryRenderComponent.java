@@ -41,13 +41,14 @@ public class PlayerInventoryRenderComponent extends RenderComponent {
 				Item current = iterator.next();
 				current.getIcon().draw(pos[0], pos[1]);
 			}
+			gr.drawString("Gold = " + plinv.getGold(), invx, invy + invbg.getHeight());
 		}
 	}
 
 	private int[] getItemPos(int invx, int invy, int index) {
 		int[] pos = new int[2];
 		pos[0] = invx + 4 + 7 * (index%4) + (index%4)*32;
-		pos[1] = invy + 2 + 2 * (index/4) + (index/4)*32;
+		pos[1] = invy + 2 + 4 * (index/4) + (index/4)*32;
 		return pos;
 	}
 

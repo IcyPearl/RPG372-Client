@@ -72,6 +72,7 @@ public class TradeState extends BasicGameState {
 				arg2.drawRect(pos[0], pos[1], 32, 32);
 			}
 		}
+		arg2.drawString("Gold = " + plinv.getGold(), plinvx, plinvy + invbg.getHeight());
 		invbg.draw(vendinvx, vendinvy);
 		VendorInventory vendinv = currentVendor.getVd().getInv();
 		ListIterator<Item> iterator1 = vendinv.getItems().listIterator();
@@ -84,6 +85,7 @@ public class TradeState extends BasicGameState {
 				arg2.drawRect(pos[0], pos[1], 32, 32);
 			}
 		}
+		
 		font.drawString(plinvx, plinvy-50, currentPlayer.getPD().getName());
 		font.drawString(vendinvx, vendinvy-50, currentVendor.getVd().getName());
 
@@ -105,13 +107,13 @@ public class TradeState extends BasicGameState {
 		if(mousex > midX && mousex < midX+30 && mousey > midY && mousey < midY+24) // ONAYLA
 		{
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				System.out.println("Buy");
+				buy();
 			}
 		}
 		if(mousex > midX && mousex < midX+40 && mousey > midY + invbg.getHeight()/2 && mousey < midY + invbg.getHeight()/2 + 24) // Iptal
 		{
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				System.out.println("Sell");
+				sell();
 			}
 		}
 		if(mousex > plinvx && mousex < plinvx + invbg.getWidth() && mousey > plinvy && mousey < plinvy + invbg.getHeight()){
@@ -139,10 +141,26 @@ public class TradeState extends BasicGameState {
 	private int[] getItemPos(int invx, int invy, int index) {
 		int[] pos = new int[2];
 		pos[0] = invx + 4 + 7 * (index%4) + (index%4)*32;
-		pos[1] = invy + 2 + 2 * (index/4) + (index/4)*32;
+		pos[1] = invy + 2 + 4 * (index/4) + (index/4)*32;
 		return pos;
 	}
 
+	public void buy(){
+		Item toTrade = currentVendor.getVd().getInv().getItems().get(vendinvselected);
+		PlayerInventory plinv = currentPlayer.getPD().getInv();
+		if(plinv.getGold() >= toTrade.getValue()){
+			plinv.addItem(toTrade);
+			plinv.setGold(plinv.getGold() - toTrade.getValue());
+		}
+	}
+	
+	public void sell(){
+		PlayerInventory plinv = currentPlayer.getPD().getInv();
+		Item toTrade = plinv.getItems().get(plinvselected);
+		plinv.setGold(plinv.getGold() + toTrade.getValue());
+		plinv.getItems().remove(plinvselected);
+	}
+	
 	public void setPlayer(Player player){
 		this.currentPlayer = player;
 	}
