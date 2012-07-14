@@ -5,6 +5,7 @@ import java.awt.Font;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
@@ -31,22 +32,26 @@ public class RegisterState extends BasicGameState
 
 	private int id;
 	
+	private Image background;
+	
 	public RegisterState(int id){
 		this.id = id;
 	}
 
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
+		background = new Image("client/data/backgrounds/registerbg.jpg");
+		
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		font = new TrueTypeFont(awtFont, false);
 		txt = new TextField(arg0, font, 300, 300, 200, 40);
 		txt2 = new TextField(arg0, font, 300, 400, 200, 40);
 		
-		
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException
 	{
+		background.draw(0,0,1366,768);
 		txt.render(arg0, arg2);
 		txt2.render(arg0, arg2);
 		

@@ -50,7 +50,7 @@ public class RPG372 extends StateBasedGame {
     }
 	
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		//this.addState(new LoginState(LOGIN));
+		this.addState(new LoginState(LOGIN));
 		this.addState(new MainMenuState(MENU));
 		this.addState(new PlayMenuState(PLAYMENU));
 		this.addState(new GamePlayState(GAMEPLAY));
