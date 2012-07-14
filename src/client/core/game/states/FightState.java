@@ -29,24 +29,24 @@ import client.main.RPG372;
 public class FightState extends BasicGameState {
 
 	private int id;
-	
+
 	private Player currentPlayer;
 	private Mob currentMob;
-	
+
 	private Image character;
 	private Image mob;
-	
+
 	private Font awtFont, awtFont2;
 	private TrueTypeFont font, font2;
-	
+
 	int health1, health2;
 	int turn = 0;
 	private String actionMessage1="" , actionMessage2="";
 	private String turnMessage = "";
-	
+
 	private String atackString1 = "";
 	private String atackString2 = "";
-	
+
 	private Color color1,color2;
 
 	public FightState(int id){
@@ -57,10 +57,10 @@ public class FightState extends BasicGameState {
 	{
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		awtFont2 = new Font("Times New Roman", Font.BOLD, 60);
-		
+
 		font = new TrueTypeFont(awtFont, false);
 		font2 = new TrueTypeFont(awtFont2, false);
-		
+
 		color1 = Color.red;
 		color2 = Color.red;
 	}
@@ -69,18 +69,18 @@ public class FightState extends BasicGameState {
 	{	
 		character.draw(100,300);
 		mob.draw(100,100);
-		
+
 		font2.drawString(130,300, atackString1,color1);
 		font2.drawString(130,100, atackString2,color2);
-		
+
 		font.drawString(300, 100, currentMob.getMd().getName());
 		font.drawString(300, 150, "Level: " + currentMob.getMd().getLevel());
 		font.drawString(300, 200, "Health: "+ health1);
-		
+
 		font.drawString(300, 300, currentPlayer.getPD().getName());
 		font.drawString(300, 350, "Level: " + currentPlayer.getPD().getLevel());
 		font.drawString(300, 400, "Health: " + health2);
-		
+
 		font.drawString(500, 100, actionMessage1);
 		font.drawString(500, 300, actionMessage2);
 		font.drawString(500, 50, turnMessage);
@@ -105,7 +105,7 @@ public class FightState extends BasicGameState {
 			{
 				atackString1 = "X";				
 			}
-			if(in.isKeyDown(Input.KEY_SPACE))
+			if(in.isKeyPressed(Input.KEY_SPACE))
 			{
 				atackString1 = "";
 				int dmg = currentPlayer.getPD().getDamage();
@@ -123,15 +123,26 @@ public class FightState extends BasicGameState {
 			atackString2 = "";
 			actionMessage2 = currentMob.getMd().getName() + " Saldirdi, Hasar " + dmg;
 			long t0,t1;
-	        t0=System.currentTimeMillis();
-	        do{
-	            t1=System.currentTimeMillis();
-	        }
-	        while (t1-t0<1000);
+			t0=System.currentTimeMillis();
+			do{
+				t1=System.currentTimeMillis();
+			}
+			while (t1-t0<1000);
 			health2 -= dmg;
 			turn++;
 		}
 	}
+	
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
 	public void setCurrentPlayer(Player player){
 		this.currentPlayer = player;
 		character = currentPlayer.getImage();

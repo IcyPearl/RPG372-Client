@@ -23,17 +23,17 @@ public class RegisterState extends BasicGameState
 {
 	private Font awtFont;
 	private TrueTypeFont font;
-	
+
 	private TextField newUsername;
 	private TextField newPassword;
-	
+
 	private Color color1;
 	private Color color2;
 
 	private int id;
-	
+
 	private Image background;
-	
+
 	public RegisterState(int id){
 		this.id = id;
 	}
@@ -41,16 +41,16 @@ public class RegisterState extends BasicGameState
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
 		background = new Image("client/data/backgrounds/registerbg.jpg");
-		
+
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		font = new TrueTypeFont(awtFont, false);
-		
+
 		newUsername = new TextField(arg0, font, 300, 300, 200, 40);
 		newPassword = new TextField(arg0, font, 300, 400, 200, 40);
-		
+
 		newUsername.setAcceptingInput(true);
 		newPassword.setAcceptingInput(true);
-		
+
 		color1 = Color.white;
 		color2 = Color.white;
 	}
@@ -60,7 +60,7 @@ public class RegisterState extends BasicGameState
 		background.draw(0,0,1366,768);
 		newUsername.render(arg0, arg2);
 		newPassword.render(arg0, arg2);
-		
+
 		font.drawString(100, 200, "REGISTER AREA");
 		font.drawString(100, 300, "New Username");
 		font.drawString(100, 400, "Password");
@@ -96,10 +96,19 @@ public class RegisterState extends BasicGameState
 				arg1.enterState(RPG372.LOGIN);
 			}
 		}
-		
-		
 	}
 	
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+	
+
 	public void setInput(boolean a)
 	{
 		newUsername.setAcceptingInput(a);

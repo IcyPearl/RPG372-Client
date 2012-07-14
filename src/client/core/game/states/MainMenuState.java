@@ -23,27 +23,27 @@ public class MainMenuState extends BasicGameState
 {
 	private Font awtFont;
 	private TrueTypeFont font;
-	
+
 	private Image background;
 	private Image box;
-	
+
 	private int id;
-	
+
 	private Color color0;
 	private Color color1;
 	private Color color2;
-	
+
 	public MainMenuState(int id){
 		this.id = id;
 	}
-	
+
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
 		background = new Image("client/data/backgrounds/mainmenubg.jpg");
 		box = new Image("client/data/backgrounds/frame8.png");
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		font = new TrueTypeFont(awtFont, false);
-		
+
 		color0 = Color.white;
 		color1 = Color.white;
 		color2 = Color.white;
@@ -63,11 +63,11 @@ public class MainMenuState extends BasicGameState
 		int mousex, mousey;
 		mousex = in.getMouseX();
 		mousey = in.getMouseY();
-		
+
 		color0 = Color.white;
 		color1 = Color.white;
 		color2 = Color.white;
-		
+
 		if(mousex > 140 && mousex < 420 && mousey > 520 && mousey < 544) // Continue
 		{
 			color0 = Color.gray;
@@ -91,6 +91,16 @@ public class MainMenuState extends BasicGameState
 		}
 	}
 
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+	
 	public int getID() {
 		return id;
 	}

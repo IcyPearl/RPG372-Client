@@ -19,34 +19,34 @@ import client.main.RPG372;
 public class LoginState extends BasicGameState{
 
 	private int id;
-	
+
 	private Font awtFont;
 	private Image background;
-	
+
 	private TrueTypeFont font;
-	
+
 	private TextField txt;
 	private TextField txt2;
-	
+
 	private Color color0;
 	private Color color1;
 	private Color color2;
-	
+
 	public LoginState(int id){
 		this.id = id;
 	}
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
 		background = new Image("client/data/backgrounds/loginbg.jpg");
-		
+
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		font = new TrueTypeFont(awtFont, false);
 		txt = new TextField(arg0, font, 300, 300, 200 , 40);
 		txt2 = new TextField(arg0, font, 300, 400, 200, 40);
-		
+
 		txt.setAcceptingInput(true);
 		txt2.setAcceptingInput(true);
-		
+
 		color0 = Color.white;
 		color1 = Color.white;
 		color2 = Color.white;
@@ -57,8 +57,8 @@ public class LoginState extends BasicGameState{
 		background.draw(0, 0, 1366, 768);
 		txt.render(arg0, arg2);
 		txt2.render(arg0, arg2);
-		
-		
+
+
 		font.drawString(100, 200, "LOGIN AREA");
 		font.drawString(100, 300, "Username");
 		font.drawString(100, 400, "Password");
@@ -76,11 +76,11 @@ public class LoginState extends BasicGameState{
 		int mousex, mousey;
 		mousex = in.getMouseX();
 		mousey = in.getMouseY();
-		
+
 		color0 = Color.white;
 		color1 = Color.white;
 		color2 = Color.white;
-		
+
 		if(mousex > 200 && mousex < 330 && mousey > 500 && mousey < 524) // REGISTER
 		{
 			color0 = new Color(29, 55, 169);
@@ -91,7 +91,7 @@ public class LoginState extends BasicGameState{
 				arg1.enterState(RPG372.REGISTER);
 			}
 		}
-		
+
 		if(mousex > 350 && mousex < 430 && mousey > 500 && mousey < 524) // LOGIN
 		{
 			color1 = new Color(29, 55, 169);
@@ -108,6 +108,16 @@ public class LoginState extends BasicGameState{
 				arg1.enterState(RPG372.MENU);
 			}
 		}
+	}
+
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
 	}
 
 	public void setInput(boolean a)

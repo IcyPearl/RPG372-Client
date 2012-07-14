@@ -24,15 +24,15 @@ import client.main.RPG372;
 public class GamePlayState extends BasicGameState {
 
 	private int id;
-	
+
 	private Image[] terrains;
-	
-	
+
+
 	public GamePlayState(int id){
 		this.id = id;
 		terrains = new Image[12];
 	}
-	
+
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		RPG372.initTestGameInstance();
 		terrains[0] = new Image("client/data/map/Terrain0.png");
@@ -68,7 +68,7 @@ public class GamePlayState extends BasicGameState {
 		}
 		RPG372.gameInstance.getCurrentPlayer().render(arg0, arg1, arg2);
 	}
-	
+
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
 		ListIterator<Mob> iterator = RPG372.gameInstance.getMobs().listIterator();
 		while(iterator.hasNext()){
@@ -84,7 +84,17 @@ public class GamePlayState extends BasicGameState {
 			arg1.enterState(RPG372.MENU);
 		}
 	}
-	
+
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
 	public int getID() {
 		return id;
 	}

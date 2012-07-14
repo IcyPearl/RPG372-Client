@@ -85,7 +85,7 @@ public class TradeState extends BasicGameState {
 				arg2.drawRect(pos[0], pos[1], 32, 32);
 			}
 		}
-		
+
 		font.drawString(plinvx, plinvy-50, currentPlayer.getPD().getName());
 		font.drawString(vendinvx, vendinvy-50, currentVendor.getVd().getName());
 
@@ -131,13 +131,23 @@ public class TradeState extends BasicGameState {
 	public int getID() {
 		return id;
 	}
+	
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
 
 	private int getSelectedIndex(int invx, int invy, int mousex, int mousey){
 		int line = (mousey - invy) / (invbg.getHeight()/4);
 		int lineindex = (mousex - invx) / (invbg.getWidth()/4);
 		return line*4 + lineindex;
 	}
-	
+
 	private int[] getItemPos(int invx, int invy, int index) {
 		int[] pos = new int[2];
 		pos[0] = invx + 4 + 7 * (index%4) + (index%4)*32;
@@ -153,14 +163,14 @@ public class TradeState extends BasicGameState {
 			plinv.setGold(plinv.getGold() - toTrade.getValue());
 		}
 	}
-	
+
 	public void sell(){
 		PlayerInventory plinv = currentPlayer.getPD().getInv();
 		Item toTrade = plinv.getItems().get(plinvselected);
 		plinv.setGold(plinv.getGold() + toTrade.getValue());
 		plinv.getItems().remove(plinvselected);
 	}
-	
+
 	public void setPlayer(Player player){
 		this.currentPlayer = player;
 	}
