@@ -1,5 +1,6 @@
 package client.core.game.states;
 
+import java.awt.Font;
 import java.util.ListIterator;
 
 import org.newdawn.slick.GameContainer;
@@ -7,6 +8,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -30,6 +33,10 @@ public class TradeState extends BasicGameState {
 	private Vendor currentVendor;
 	
 	private Image invbg;
+	
+	private Font awtFont;
+	private TrueTypeFont font;
+	
 
 	public TradeState(int id){
 		this.id = id;
@@ -37,8 +44,11 @@ public class TradeState extends BasicGameState {
 
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		invbg = new Image("client/data/inventory/inv_bg1.png");
+		awtFont = new Font("Times New Roman", Font.BOLD, 24);
+		font = new TrueTypeFont(awtFont, false);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		int plinvx = 100;
 		int plinvy = 100;
@@ -60,6 +70,14 @@ public class TradeState extends BasicGameState {
 			Item current = iterator1.next();
 			current.getIcon().draw(pos[0], pos[1]);
 		}
+		font.drawString(plinvx, plinvy-50, currentPlayer.getPD().getName());
+		font.drawString(vendinvx, vendinvy-50, currentVendor.getVd().getName());
+		
+		int midX = (vendinvx + plinvx) / 2;
+		int midY = vendinvy;
+		
+		font.drawString(midX, midY, "BUY");
+		font.drawString(midX, midY + invbg.getHeight()/2 , "SELL");
 		
 	}
 
