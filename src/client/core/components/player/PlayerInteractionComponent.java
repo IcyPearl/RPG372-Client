@@ -6,7 +6,9 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import client.core.components.Component;
 import client.core.entities.npc.Mob;
+import client.core.entities.npc.Vendor;
 import client.core.game.states.FightState;
+import client.core.game.states.TradeState;
 import client.main.RPG372;
 
 
@@ -32,6 +34,14 @@ public class PlayerInteractionComponent extends Component {
 				fs.setMob(mob);
 				fs.setCurrentPlayer(RPG372.gameInstance.getCurrentPlayer());
 				sb.enterState(RPG372.FIGHT);	
+			}else{
+				Vendor vend = RPG372.gameInstance.getNearestVendor();
+				if(vend != null){
+					TradeState ts = (TradeState)sb.getState(RPG372.TRADE);
+					ts.setPlayer(RPG372.gameInstance.getCurrentPlayer());
+					ts.setVendor(vend);
+					sb.enterState(RPG372.TRADE);
+				}
 			}
 		}
 	}

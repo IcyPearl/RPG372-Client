@@ -7,7 +7,8 @@ package client.core.entities.npc;
  * @author Mefu
  */
 public class MobData {
-private int level;
+	
+	private int level;
 	
 	private String name;
 	private MobInventory inv;

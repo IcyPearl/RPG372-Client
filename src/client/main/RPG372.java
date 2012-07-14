@@ -11,6 +11,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import client.core.entities.item.Item;
 import client.core.entities.npc.Mob;
 import client.core.entities.npc.MobData;
+import client.core.entities.npc.Vendor;
+import client.core.entities.npc.VendorData;
+import client.core.entities.npc.VendorInventory;
 import client.core.entities.player.Player;
 import client.core.entities.player.PlayerData;
 import client.core.entities.player.PlayerInventory;
@@ -59,10 +62,12 @@ public class RPG372 extends StateBasedGame {
 	public static void initTestGameInstance() throws SlickException{
 		PlayerData pd = new PlayerData();
 		MobData md = new MobData();
+		VendorData vd = new VendorData();
 		pd.setLevel(5);
 		pd.setName("Mefu");
 		md.setLevel(7);
 		md.setName("Jordan");
+		vd.setName("Ibne Satici");
 		int posx = 0;
 		int posy = 0;
 		Image img = new Image("client/data/player/player1.png");
@@ -80,9 +85,17 @@ public class RPG372 extends StateBasedGame {
 		plinv.addItem(item1);
 		plinv.addItem(item2);
 		Mob mob = new Mob(213, md, 3, 3, new Image("client/data/mob/mob1.png"));
+		Mob mob1 = new Mob(214, md, 5, 6, new Image("client/data/mob/mob4.png"));
+		Vendor vend = new Vendor(231, vd, 10, 10, new Image("client/data/vendor/vendor1.png"));
+		VendorInventory vendinv = new VendorInventory(vend);
+		vendinv.addItem(item1);
+		vendinv.addItem(item2);
+		vd.setInv(vendinv);
 		gameInstance = new GameInstance();
 		gameInstance.setCurrentPlayer(pl);
 		gameInstance.addMob(mob);
+		gameInstance.addMob(mob1);
+		gameInstance.addVendor(vend);
 		gameInstance.setMap(new Map(1,1));
 		try {
 			gameInstance.getMap().readMap("src/client/data/map/map1.txt");

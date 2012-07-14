@@ -11,6 +11,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import client.core.entities.npc.Mob;
+import client.core.entities.npc.Vendor;
 import client.main.RPG372;
 
 /**
@@ -57,19 +58,27 @@ public class GamePlayState extends BasicGameState {
 				terrains[type].draw(i*50, j*50, 0.5f);
 			}
 		}
-		RPG372.gameInstance.getCurrentPlayer().render(arg0, arg1, arg2);
 		ListIterator<Mob> iterator = RPG372.gameInstance.getMobs().listIterator();
 		while(iterator.hasNext()){
 			iterator.next().render(arg0, arg1, arg2);
 		}
+		ListIterator<Vendor> iterator1 = RPG372.gameInstance.getVendors().listIterator();
+		while(iterator1.hasNext()){
+			iterator1.next().render(arg0, arg1, arg2);
+		}
+		RPG372.gameInstance.getCurrentPlayer().render(arg0, arg1, arg2);
 	}
 	
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		RPG372.gameInstance.getCurrentPlayer().update(arg0, arg1, arg2);
 		ListIterator<Mob> iterator = RPG372.gameInstance.getMobs().listIterator();
 		while(iterator.hasNext()){
 			iterator.next().update(arg0, arg1, arg2);
 		}
+		ListIterator<Vendor> iterator1 = RPG372.gameInstance.getVendors().listIterator();
+		while(iterator1.hasNext()){
+			iterator1.next().update(arg0, arg1, arg2);
+		}
+		RPG372.gameInstance.getCurrentPlayer().update(arg0, arg1, arg2);
 		Input in = arg0.getInput();
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			arg1.enterState(RPG372.MENU);

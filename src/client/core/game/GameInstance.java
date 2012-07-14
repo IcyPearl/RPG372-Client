@@ -29,6 +29,21 @@ public class GameInstance {
 		vendors = new ArrayList<Vendor>();
 	}
 
+	public Vendor getNearestVendor(){
+		Vendor vend = null;
+		int i = currentPlayer.getPosX();
+		int j = currentPlayer.getPosY();
+		ListIterator<Vendor> iterator = vendors.listIterator();
+		while(iterator.hasNext()){
+			Vendor current = iterator.next();
+			if(isNear(i,j,current.getPosX(),current.getPosY())){
+				vend = current;
+				break;
+			}
+		}
+		return vend;
+	}
+	
 	public Mob getNearestMob(){
 		Mob mob = null;
 		int i = currentPlayer.getPosX();

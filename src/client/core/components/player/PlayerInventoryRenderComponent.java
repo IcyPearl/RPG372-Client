@@ -30,7 +30,7 @@ public class PlayerInventoryRenderComponent extends RenderComponent {
 	}
 
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-		int invx = 0;
+		int invx = 1000;
 		int invy = 0;
 		if(draw){
 			invbg.draw(invx, invy);
