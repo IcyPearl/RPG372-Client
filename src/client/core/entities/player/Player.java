@@ -32,12 +32,13 @@ public class Player extends LivingEntity {
 		this.setImage(img);
 		this.setPosX(posx);
 		this.setPosY(posy);
+		
+		this.addComponent(new PlayerRenderComponent(PLAYERRENDERCOMP));
 		if(activePlayer){
 			this.addComponent(new PlayerMoveComponent(PLAYERMOVECOMP));
 			this.addComponent(new PlayerInteractionComponent(PLAYERINTERACTCOMP));
 			this.addComponent(new PlayerInventoryRenderComponent(PLAYERINVRENDERCOMP));
 		}
-		this.addComponent(new PlayerRenderComponent(PLAYERRENDERCOMP));
 	}
 
 	public boolean isActivePlayer(){

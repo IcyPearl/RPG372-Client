@@ -8,10 +8,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import client.core.entities.item.Item;
 import client.core.entities.npc.Mob;
 import client.core.entities.npc.MobData;
 import client.core.entities.player.Player;
 import client.core.entities.player.PlayerData;
+import client.core.entities.player.PlayerInventory;
 import client.core.game.GameInstance;
 import client.core.game.states.*;
 import client.core.map.Map;
@@ -39,7 +41,8 @@ public class RPG372 extends StateBasedGame {
 	public static void main(String[] args) throws SlickException{
          AppGameContainer app = new AppGameContainer(new RPG372());
  
-         app.setDisplayMode(800, 600, false);
+         app.setDisplayMode(1366, 768, false);
+         app.setFullscreen(true);
          app.start();
     }
 	
@@ -64,6 +67,18 @@ public class RPG372 extends StateBasedGame {
 		int posy = 0;
 		Image img = new Image("client/data/player/player1.png");
 		Player pl = new Player(111, pd, posx, posy, img, true);
+		PlayerInventory plinv = new PlayerInventory(pl);
+		pd.setInv(plinv);
+		Item item1 = new Item(10);
+		item1.setIcon(new Image("client/data/items/misc/misc1.png"));
+		item1.setName("Magic Powder");
+		item1.setValue(30);
+		Item item2 = new Item(5);
+		item2.setIcon(new Image("client/data/items/armor/Armor1.png"));
+		item2.setName("Yellow Armor");
+		item2.setValue(50);
+		plinv.addItem(item1);
+		plinv.addItem(item2);
 		Mob mob = new Mob(213, md, 3, 3, new Image("client/data/mob/mob1.png"));
 		gameInstance = new GameInstance();
 		gameInstance.setCurrentPlayer(pl);

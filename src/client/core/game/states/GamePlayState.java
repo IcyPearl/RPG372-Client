@@ -5,6 +5,7 @@ import java.util.ListIterator;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -68,6 +69,10 @@ public class GamePlayState extends BasicGameState {
 		ListIterator<Mob> iterator = RPG372.gameInstance.getMobs().listIterator();
 		while(iterator.hasNext()){
 			iterator.next().update(arg0, arg1, arg2);
+		}
+		Input in = arg0.getInput();
+		if(in.isKeyPressed(Input.KEY_ESCAPE)){
+			arg1.enterState(RPG372.MENU);
 		}
 	}
 	

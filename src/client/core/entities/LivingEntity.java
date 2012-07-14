@@ -25,10 +25,10 @@ public class LivingEntity {
 	private int posy;
 	private float scale;
 	private float rotation;
-	
+
 	private Image img;
 
-	RenderComponent renderComponent = null;
+	ArrayList<RenderComponent> renderComponents = null;
 
 	ArrayList<Component> components = null;
 
@@ -36,6 +36,7 @@ public class LivingEntity {
 		this.id = id;
 
 		components = new ArrayList<Component>();
+		renderComponents = new ArrayList<RenderComponent>();
 
 		posx = 0;
 		posy = 0;
@@ -46,15 +47,14 @@ public class LivingEntity {
 	public Image getImage(){
 		return img;
 	}
-	
+
 	public void setImage(Image img){
 		this.img = img;
 	}
-	
+
 	public void addComponent(Component component){
 		if(RenderComponent.class.isInstance(component))
-			renderComponent = (RenderComponent) component;
-
+			renderComponents.add((RenderComponent) component);
 		component.setOwnerEntity(this);
 		components.add(component);
 	}
@@ -74,7 +74,7 @@ public class LivingEntity {
 	public void setPosX(int posx) {
 		this.posx = posx;
 	}
-	
+
 	public int getPosY() {
 		return posy;
 	}
@@ -82,7 +82,7 @@ public class LivingEntity {
 	public void setPosY(int posy) {
 		this.posy = posy;
 	}
-	
+
 	public float getScale() {
 		return scale;
 	}
@@ -102,16 +102,18 @@ public class LivingEntity {
 	public int getId() {
 		return id;
 	}
-	
+
 	public void update(GameContainer gc, StateBasedGame sb, int delta){
-        for(Component component : components){
-            component.update(gc, sb, delta);
-        }
-    }
-	
+		for(Component component : components){
+			component.update(gc, sb, delta);
+		}
+	}
+
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
-        if(renderComponent != null)
-            renderComponent.render(gc, sb, gr);
-    }
+		if(renderComponents != null)
+			for(RenderComponent renderComponent : renderComponents){
+				renderComponent.render(gc, sb, gr);
+			}
+	}
 
 }
