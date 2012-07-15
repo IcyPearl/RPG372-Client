@@ -25,14 +25,14 @@ public class QueryExecutor {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection(url, userName, password);
 			stmt = conn.createStatement();
-
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			map = new HashMap<String,ArrayList<String>>();
+			map = new HashMap<String, ArrayList<String>>();
 			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-				map.put(rs.getMetaData().getColumnName(i), new ArrayList<String>());
+				map.put(rs.getMetaData().getColumnName(i),
+						new ArrayList<String>());
 			}
-			while(rs.next()){
+			while (rs.next()) {
 				String tmp = "";
 				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
 					tmp = rs.getMetaData().getColumnName(i);
@@ -43,13 +43,12 @@ public class QueryExecutor {
 			stmt = null;
 			conn = null;
 			mp = map;
-		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException | SQLException e) {
+		} catch (Exception  e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	public ArrayList<String> getRow(int index){
 		ArrayList<String> rtr = new ArrayList<String>();
 		for(String key:mp.keySet()){
@@ -57,7 +56,7 @@ public class QueryExecutor {
 		}
 		return rtr;
 	}
-	
+
 	public int getResultCount(){
 		return mp.get(mp.keySet().toArray()[0]).size();
 	}
