@@ -73,7 +73,7 @@ public class RPG372 extends StateBasedGame {
 		Image img = new Image("client/data/player/player1.png");
 		Player pl = new Player(111, pd, posx, posy, img, true);
 		PlayerInventory plinv = new PlayerInventory(pl);
-		plinv.setGold(300);
+		plinv.setGold(500);
 		pd.setInv(plinv);
 		Item item1 = new Item(10);
 		item1.setIcon(new Image("client/data/items/misc/misc1.png"));

@@ -19,10 +19,53 @@ public class Inventory {
 	public Inventory(LivingEntity owner){
 		this.owner = owner;
 		items = new ArrayList<Item>();
+		for(int i = 0 ; i < 16 ; i++){
+			items.add(null);
+		}
 	}
 	
-	public void addItem(Item item){
-		items.add(item);
+	public boolean isFull(){
+		for(int i = 0 ; i < 16 ; i++){
+			if(getItem(i) == null){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean addItem(Item item){
+		int i = 0;
+		while(getItem(i) != null){
+			i++;
+		}
+		if(i > 15){
+			return false;
+		}
+		items.set(i, item);
+		while(items.size() != 16){
+			if(items.size() < 16){
+				items.add(null);
+			}else{
+				items.remove(15);
+			}
+		}
+		return true;
+	}
+	
+	public Item getItem(int n){
+		return items.get(n);
+	}
+	
+	public void removeItem(int n){
+		items.remove(n);
+		items.add(null);
+		while(items.size() != 16){
+			if(items.size() < 16){
+				items.add(null);
+			}else{
+				items.remove(15);
+			}
+		}
 	}
 	
 	public ArrayList<Item> getItems(){

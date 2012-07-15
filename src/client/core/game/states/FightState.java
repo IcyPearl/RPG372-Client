@@ -3,6 +3,7 @@ package client.core.game.states;
 
 import java.awt.Font;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -29,25 +30,28 @@ import client.main.RPG372;
 public class FightState extends BasicGameState {
 
 	private int id;
-
+	
 	private Player currentPlayer;
 	private Mob currentMob;
-
+	
 	private Image character;
 	private Image mob;
-
+	
 	private Font awtFont, awtFont2;
 	private TrueTypeFont font, font2;
-
+	
+	private Color colorAtack;
+	private Color colorRetreat;
+	
 	int health1, health2;
 	int turn = 0;
+	
+	int charx,chary;
+	int mobx,moby;
+	
 	private String actionMessage1="" , actionMessage2="";
 	private String turnMessage = "";
-
-	private String atackString1 = "";
-	private String atackString2 = "";
-
-	private Color color1,color2;
+	
 
 	public FightState(int id){
 		this.id = id;
@@ -57,38 +61,54 @@ public class FightState extends BasicGameState {
 	{
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		awtFont2 = new Font("Times New Roman", Font.BOLD, 60);
-
+		
 		font = new TrueTypeFont(awtFont, false);
 		font2 = new TrueTypeFont(awtFont2, false);
-
-		color1 = Color.red;
-		color2 = Color.red;
+		
+		colorAtack = Color.red;
+		colorRetreat = Color.red;
+		
+		charx = 300;
+		chary = 400;
+		
+		mobx  = 300;
+		moby  = 200;
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException
 	{	
-		character.draw(100,300);
-		mob.draw(100,100);
-
-		font2.drawString(130,300, atackString1,color1);
-		font2.drawString(130,100, atackString2,color2);
-
-		font.drawString(300, 100, currentMob.getMd().getName());
-		font.drawString(300, 150, "Level: " + currentMob.getMd().getLevel());
-		font.drawString(300, 200, "Health: "+ health1);
-
-		font.drawString(300, 300, currentPlayer.getPD().getName());
-		font.drawString(300, 350, "Level: " + currentPlayer.getPD().getLevel());
-		font.drawString(300, 400, "Health: " + health2);
-
-		font.drawString(500, 100, actionMessage1);
-		font.drawString(500, 300, actionMessage2);
-		font.drawString(500, 50, turnMessage);
+		character.draw(charx,chary);
+		mob.draw(mobx,moby);
+		
+		font.drawString(500, 200, currentMob.getMd().getName());
+		font.drawString(500, 250, "Level: " + currentMob.getMd().getLevel());
+		font.drawString(500, 300, "Health: "+ health1);
+		
+		font.drawString(500, 400, currentPlayer.getPD().getName());
+		font.drawString(500, 450, "Level: " + currentPlayer.getPD().getLevel());
+		font.drawString(500, 500, "Health: " + health2);
+		
+		font.drawString(700, 450, "ATACK",colorAtack);
+		font.drawString(700, 500, "RETREAT",colorRetreat);
+		
+		font.drawString(700, 200, actionMessage1);
+		font.drawString(700, 400, actionMessage2);
+		font.drawString(700, 150, turnMessage);
 	}
 
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException
 	{	
 		Input in = arg0.getInput();
+		int mousex, mousey;
+		mousex = in.getMouseX();
+		mousey = in.getMouseY();
+		
+		charx = 300;
+		chary = 400;
+		
+		mobx  = 300;
+		moby  = 200;
+		
 		if( health1 <= 0 || health2 <= 0)
 		{
 			arg1.enterState(RPG372.GAMEPLAY);
@@ -97,52 +117,46 @@ public class FightState extends BasicGameState {
 		{
 			turnMessage = "Sira Sende";
 			actionMessage1 = "";
-			if( turn == 0)
+		}
+		else
+		{
+			int dmg = currentMob.getMd().getDamage();
+			actionMessage2 = currentMob.getMd().getName() + " Saldirdi, Hasar " + dmg;
+			waitFor(1000);
+			health2 -= dmg;
+			turn++;
+		}
+		colorAtack = Color.white;
+		colorRetreat = Color.white;
+		if(mousex > 700 && mousex < 800 && mousey > 450 && mousey < 474) // ATACK
+		{
+			colorAtack = Color.red;
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 			{
-				atackString1 = "";
-			}
-			else
-			{
-				atackString1 = "X";				
-			}
-			if(in.isKeyPressed(Input.KEY_SPACE))
-			{
-				atackString1 = "";
 				int dmg = currentPlayer.getPD().getDamage();
 				health1 -= dmg;
 				actionMessage1 = currentPlayer.getPD().getName() + " Saldirdi, Hasar " + dmg;
 				turn++;
 				turnMessage = "Sira "+ currentMob.getMd().getName() + "da";
+				try {
+					animation1();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				actionMessage2 = "";
-				atackString2 = "X";
 			}
 		}
-		else
+		
+		if(mousex > 700 && mousex < 820 && mousey > 500 && mousey < 524) // RETREAT
 		{
-			int dmg = currentMob.getMd().getDamage();
-			atackString2 = "";
-			actionMessage2 = currentMob.getMd().getName() + " Saldirdi, Hasar " + dmg;
-			long t0,t1;
-			t0=System.currentTimeMillis();
-			do{
-				t1=System.currentTimeMillis();
+			colorRetreat = Color.red;
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+			{
+				arg1.enterState(RPG372.GAMEPLAY);
 			}
-			while (t1-t0<1000);
-			health2 -= dmg;
-			turn++;
 		}
 	}
-	
-	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
-		container.getInput().clearKeyPressedRecord();
-		container.getInput().clearMousePressedRecord();
-	}
-
-	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
-		container.getInput().clearKeyPressedRecord();
-		container.getInput().clearMousePressedRecord();
-	}
-
 	public void setCurrentPlayer(Player player){
 		this.currentPlayer = player;
 		character = currentPlayer.getImage();
@@ -154,7 +168,34 @@ public class FightState extends BasicGameState {
 		this.mob = currentMob.getImage();
 		health1 = mob.getMd().getMaxHealth();
 	}
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
+
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
+		container.getInput().clearKeyPressedRecord();
+		container.getInput().clearMousePressedRecord();
+	}
 	public int getID() {
 		return id;
 	}
+	public void animation1() throws InterruptedException
+	{
+		waitFor(1000);
+		charx = 300;
+		chary = 300;
+		mobx  = 300;
+		moby  = 240;
+	}
+	public void waitFor(long milis)
+	{
+		long t0,t1;
+        t0=System.currentTimeMillis();
+        do{
+            t1=System.currentTimeMillis();
+        }
+        while (t1-t0<milis);
+	}
+	
 }

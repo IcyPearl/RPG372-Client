@@ -67,7 +67,8 @@ public class TradeState extends BasicGameState {
 			int index = iterator.nextIndex();
 			int[] pos = getItemPos(plinvx, plinvy, index);
 			Item current = iterator.next();
-			current.getIcon().draw(pos[0], pos[1]);
+			if(current != null)
+				current.getIcon().draw(pos[0], pos[1]);
 			if(index == plinvselected){
 				arg2.drawRect(pos[0], pos[1], 32, 32);
 			}
@@ -80,7 +81,8 @@ public class TradeState extends BasicGameState {
 			int index = iterator1.nextIndex();
 			int[] pos = getItemPos(vendinvx, vendinvy, index);
 			Item current = iterator1.next();
-			current.getIcon().draw(pos[0], pos[1]);
+			if(current != null)
+				current.getIcon().draw(pos[0], pos[1]);
 			if(index == vendinvselected){
 				arg2.drawRect(pos[0], pos[1], 32, 32);
 			}
@@ -131,7 +133,7 @@ public class TradeState extends BasicGameState {
 	public int getID() {
 		return id;
 	}
-	
+
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
 		container.getInput().clearKeyPressedRecord();
 		container.getInput().clearMousePressedRecord();
@@ -156,19 +158,28 @@ public class TradeState extends BasicGameState {
 	}
 
 	public void buy(){
-		Item toTrade = currentVendor.getVd().getInv().getItems().get(vendinvselected);
+		Item toTrade = currentVendor.getVd().getInv().getItem(vendinvselected);
+		if(toTrade == null){
+			return;
+		}
 		PlayerInventory plinv = currentPlayer.getPD().getInv();
+		if(plinv.isFull()){
+			return;
+		}
 		if(plinv.getGold() >= toTrade.getValue()){
-			plinv.addItem(toTrade);
-			plinv.setGold(plinv.getGold() - toTrade.getValue());
+			if(plinv.addItem(toTrade))
+				plinv.setGold(plinv.getGold() - toTrade.getValue());
 		}
 	}
 
 	public void sell(){
 		PlayerInventory plinv = currentPlayer.getPD().getInv();
-		Item toTrade = plinv.getItems().get(plinvselected);
+		Item toTrade = plinv.getItem(plinvselected);
+		if(toTrade == null){
+			return;
+		}
 		plinv.setGold(plinv.getGold() + toTrade.getValue());
-		plinv.getItems().remove(plinvselected);
+		plinv.removeItem(plinvselected);
 	}
 
 	public void setPlayer(Player player){
