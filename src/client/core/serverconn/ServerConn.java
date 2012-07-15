@@ -13,7 +13,14 @@ import client.core.entities.item.Item;
 import client.core.entities.item.Weapon;
 import client.core.entities.npc.MobData;
 import client.core.entities.npc.MobInventory;
+import client.core.entities.npc.Vendor;
+import client.core.entities.npc.VendorData;
+import client.core.entities.npc.VendorInventory;
+import client.core.entities.player.Player;
+import client.core.entities.player.PlayerData;
+import client.core.entities.player.PlayerInventory;
 import client.core.game.GameInstance;
+import client.core.map.Map;
 import client.main.RPG372;
 
 /**
@@ -102,6 +109,41 @@ public class ServerConn {
 		
 		qe.SendQuery("SELECT userId FROM RPG372DB_User WHERE userName='"+username+"' AND password='"+password+"'");
 		return qe.getResultCount() > 0;
+	}
+	
+	public static Map getMap(int mapId){
+		return null;
+	}
+	
+	public static Vendor getVendor(int vendorId){
+		return null;
+	}
+	
+	public static VendorData getVendorData(int vendorId){
+		return null;
+	}
+	
+	public static VendorInventory getVendorInventory(int invId){
+		return null;
+	}
+	
+	
+	//get login usernames player
+	public static Player getPlayer(int userId){
+		
+		return null;
+	}
+	
+	public static PlayerInventory getPlayerInventory(int playerId){
+		PlayerInventory plinv = new PlayerInventory(null);
+		plinv.setEqarmor(null);
+		plinv.setEqweapon(null);
+		plinv.setGold(0);
+		return null;
+	}
+	
+	public static PlayerData getPlayerData(int playerId){
+		return null;
 	}
 	
 	public static MobData getMobData(int mobID) throws NumberFormatException, SlickException{
