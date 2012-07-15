@@ -108,6 +108,7 @@ public class LootState extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
 		Input in = arg0.getInput();
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
+			deleteMob();
 			arg1.enterState(RPG372.GAMEPLAY);
 		}
 		colorLoot = Color.white;
@@ -128,6 +129,7 @@ public class LootState extends BasicGameState {
 		{
 			colorExit = Color.red;
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				deleteMob();
 				arg1.enterState(RPG372.GAMEPLAY);
 			}
 		}
@@ -173,6 +175,10 @@ public class LootState extends BasicGameState {
 		pos[0] = invx + 8 + 14 * (index%4) + (index%4)*64;
 		pos[1] = invy + 4 + 8 * (index/4) + (index/4)*64;
 		return pos;
+	}
+	
+	public void deleteMob(){
+		RPG372.gameInstance.getMobs().remove(currentMob);
 	}
 	
 	public void setPlayer(Player player){

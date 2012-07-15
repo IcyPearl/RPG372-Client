@@ -3,7 +3,13 @@ package client.core.game;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
+import client.core.entities.item.Item;
 import client.core.entities.npc.Mob;
+import client.core.entities.npc.MobData;
+import client.core.entities.npc.MobInventory;
 import client.core.entities.npc.Vendor;
 import client.core.entities.player.Player;
 import client.core.map.Map;
@@ -66,6 +72,23 @@ public class GameInstance {
 		if(idif > -1 && idif < 2 && jdif > -1 && jdif < 2)
 			return true;
 		return false;
+	}
+	
+	public void spawnMobs() throws SlickException{
+		while(mobs.size() < 3){
+			Item item1 = new Item(10);
+			item1.setIcon(new Image("client/data/items/misc/misc1.png"));
+			item1.setName("Magic Powder");
+			item1.setValue(30);
+			MobData md = new MobData();
+			md.setLevel(7);
+			md.setName("Jordan");
+			Mob mob = new Mob(213, md, 3, 3, new Image("client/data/mob/mob1.png"));
+			MobInventory mobinv = new MobInventory(mob);
+			mobinv.addItem(item1);
+			md.setInv(mobinv);
+			mobs.add(mob);
+		}
 	}
 	
 	public Map getMap() {

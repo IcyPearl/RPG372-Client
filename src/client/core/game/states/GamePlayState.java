@@ -70,6 +70,7 @@ public class GamePlayState extends BasicGameState {
 	}
 
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
+		RPG372.gameInstance.spawnMobs();
 		ListIterator<Mob> iterator = RPG372.gameInstance.getMobs().listIterator();
 		while(iterator.hasNext()){
 			iterator.next().update(arg0, arg1, arg2);
