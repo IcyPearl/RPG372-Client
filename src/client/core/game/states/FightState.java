@@ -128,7 +128,7 @@ public class FightState extends BasicGameState {
 		}
 		else
 		{
-			int dmg = currentMob.getMd().getDamage();
+			int dmg = currentMob.getMd().getDamage() - currentPlayer.getPD().getInv().getEqarmor().getDefence();
 			actionMessage2 = currentMob.getMd().getName() + " Saldirdi, Hasar " + dmg;
 			waitFor(1000);
 			health2 -= dmg;
@@ -141,7 +141,7 @@ public class FightState extends BasicGameState {
 			colorAtack = Color.red;
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 			{
-				int dmg = currentPlayer.getPD().getDamage();
+				int dmg = currentPlayer.getPD().getDamage() + currentPlayer.getPD().getInv().getEqweapon().getDamage();
 				health1 -= dmg;
 				actionMessage1 = currentPlayer.getPD().getName() + " Saldirdi, Hasar " + dmg;
 				turn++;

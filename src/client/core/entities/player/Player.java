@@ -2,6 +2,7 @@ package client.core.entities.player;
 
 import org.newdawn.slick.Image;
 
+import client.core.components.player.PlayerEquipmentRenderComponent;
 import client.core.components.player.PlayerInteractionComponent;
 import client.core.components.player.PlayerInventoryRenderComponent;
 import client.core.components.player.PlayerMoveComponent;
@@ -24,6 +25,7 @@ public class Player extends LivingEntity {
 	public static final int PLAYERINTERACTCOMP = 2;
 	public static final int PLAYERRENDERCOMP = 3;
 	public static final int PLAYERINVRENDERCOMP = 4;
+	public static final int PLAYEREQRENDERCOMP = 5;
 
 	public Player(int id, PlayerData pd, int posx, int posy, Image img, boolean activePlayer) {
 		super(id);
@@ -38,6 +40,7 @@ public class Player extends LivingEntity {
 			this.addComponent(new PlayerMoveComponent(PLAYERMOVECOMP));
 			this.addComponent(new PlayerInteractionComponent(PLAYERINTERACTCOMP));
 			this.addComponent(new PlayerInventoryRenderComponent(PLAYERINVRENDERCOMP));
+			this.addComponent(new PlayerEquipmentRenderComponent(PLAYEREQRENDERCOMP));
 		}
 	}
 
