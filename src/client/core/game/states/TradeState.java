@@ -3,6 +3,7 @@ package client.core.game.states;
 import java.awt.Font;
 import java.util.ListIterator;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -34,10 +35,12 @@ public class TradeState extends BasicGameState {
 	private int plinvselected;
 	private int vendinvselected;
 
-	private Image invbg;
+	private Image invbg,background;
 
 	private Font awtFont;
 	private TrueTypeFont font;
+	
+	private Color colorBuy, colorSell,colorExit;
 
 	private int plinvx, plinvy, vendinvx, vendinvy, midX, midY;
 
@@ -48,19 +51,28 @@ public class TradeState extends BasicGameState {
 
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		invbg = new Image("client/data/inventory/inv_bg1.png");
+		background = new Image("client/data/backgrounds/tradebg2.jpg");
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		font = new TrueTypeFont(awtFont, false);
 		plinvselected = 0;
 		vendinvselected = 0;
+		colorBuy = Color.white;
+		colorSell = Color.white;
+		colorExit = Color.white;
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		plinvx = 100;
-		plinvy = 100;
-		vendinvx = 600;
-		vendinvy = 100;
-
-		invbg.draw(plinvx, plinvy);
+		plinvx = 200;
+		plinvy = 200;
+		
+		vendinvx = 800;
+		vendinvy = 200;
+		
+		background.draw(0,0,1366,768);
+		
+		invbg.draw(plinvx, plinvy, 2.0f);
+		
+		
 		PlayerInventory plinv = currentPlayer.getPD().getInv();
 		ListIterator<Item> iterator = plinv.getItems().listIterator();
 		while(iterator.hasNext()){
@@ -68,13 +80,16 @@ public class TradeState extends BasicGameState {
 			int[] pos = getItemPos(plinvx, plinvy, index);
 			Item current = iterator.next();
 			if(current != null)
-				current.getIcon().draw(pos[0], pos[1]);
+				current.getIcon().draw(pos[0], pos[1],2.0f);
 			if(index == plinvselected){
-				arg2.drawRect(pos[0], pos[1], 32, 32);
+				arg2.drawRect(pos[0], pos[1], 64, 64);
 			}
 		}
-		arg2.drawString("Gold = " + plinv.getGold(), plinvx, plinvy + invbg.getHeight());
-		invbg.draw(vendinvx, vendinvy);
+		
+		font.drawString(plinvx, plinvy+ invbg.getHeight()*2, "Gold = " + plinv.getGold(),Color.black);
+		
+		invbg.draw(vendinvx, vendinvy,2.0f);
+		
 		VendorInventory vendinv = currentVendor.getVd().getInv();
 		ListIterator<Item> iterator1 = vendinv.getItems().listIterator();
 		while(iterator1.hasNext()){
@@ -82,20 +97,21 @@ public class TradeState extends BasicGameState {
 			int[] pos = getItemPos(vendinvx, vendinvy, index);
 			Item current = iterator1.next();
 			if(current != null)
-				current.getIcon().draw(pos[0], pos[1]);
+				current.getIcon().draw(pos[0], pos[1],2.0f);
 			if(index == vendinvselected){
-				arg2.drawRect(pos[0], pos[1], 32, 32);
+				arg2.drawRect(pos[0], pos[1], 64, 64);
 			}
 		}
 
-		font.drawString(plinvx, plinvy-50, currentPlayer.getPD().getName());
-		font.drawString(vendinvx, vendinvy-50, currentVendor.getVd().getName());
+		font.drawString(plinvx, plinvy-50, currentPlayer.getPD().getName(),Color.black);
+		font.drawString(vendinvx, vendinvy-50, currentVendor.getVd().getName(),Color.black);
 
-		midX = (vendinvx + plinvx) / 2;
+		midX = (vendinvx - 60 + plinvx + invbg.getWidth()*2) / 2;
 		midY = vendinvy;
 
-		font.drawString(midX, midY, "BUY");
-		font.drawString(midX, midY + invbg.getHeight()/2 , "SELL");
+		font.drawString(midX, midY, "BUY", colorBuy);
+		font.drawString(midX, midY +50 , "SELL", colorSell);
+		font.drawString(midX, midY +100 , "EXIT", colorExit);
 	}
 
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
@@ -106,24 +122,37 @@ public class TradeState extends BasicGameState {
 		int mousex, mousey;
 		mousex = in.getMouseX();
 		mousey = in.getMouseY();
-		if(mousex > midX && mousex < midX+30 && mousey > midY && mousey < midY+24) // ONAYLA
+		
+		colorBuy = Color.black;
+		colorSell = Color.black;
+		colorExit = Color.black;
+		if(mousex > midX && mousex < midX+70 && mousey > midY && mousey < midY+24) // BUY
 		{
+			colorBuy = Color.blue;
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				buy();
 			}
 		}
-		if(mousex > midX && mousex < midX+40 && mousey > midY + invbg.getHeight()/2 && mousey < midY + invbg.getHeight()/2 + 24) // Iptal
+		if(mousex > midX && mousex < midX+70 && mousey > midY +50 && mousey < midY + 74) // SELL
 		{
+			colorSell = Color.blue;
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				sell();
 			}
 		}
-		if(mousex > plinvx && mousex < plinvx + invbg.getWidth() && mousey > plinvy && mousey < plinvy + invbg.getHeight()){
+		if(mousex > midX && mousex < midX+70 && mousey > midY +100 && mousey < midY + 124) // EXIT
+		{
+			colorExit = Color.blue;
+			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				arg1.enterState(RPG372.GAMEPLAY);
+			}
+		}
+		if(mousex > plinvx && mousex < plinvx + invbg.getWidth()*2 && mousey > plinvy && mousey < plinvy + invbg.getHeight()*2){
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				plinvselected = getSelectedIndex(plinvx, plinvy, mousex, mousey);
 			}
 		}
-		if(mousex > vendinvx && mousex < vendinvx + invbg.getWidth() && mousey > vendinvy && mousey < vendinvy + invbg.getHeight()){
+		if(mousex > vendinvx && mousex < vendinvx + invbg.getWidth()*2 && mousey > vendinvy && mousey < vendinvy + invbg.getHeight()*2){
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				vendinvselected = getSelectedIndex(vendinvx, vendinvy, mousex, mousey);
 			}
@@ -145,15 +174,15 @@ public class TradeState extends BasicGameState {
 	}
 
 	private int getSelectedIndex(int invx, int invy, int mousex, int mousey){
-		int line = (mousey - invy) / (invbg.getHeight()/4);
-		int lineindex = (mousex - invx) / (invbg.getWidth()/4);
+		int line = (mousey - invy) / (invbg.getHeight()*2/4);
+		int lineindex = (mousex - invx) / (invbg.getWidth()*2/4);
 		return line*4 + lineindex;
 	}
 
 	private int[] getItemPos(int invx, int invy, int index) {
 		int[] pos = new int[2];
-		pos[0] = invx + 4 + 7 * (index%4) + (index%4)*32;
-		pos[1] = invy + 2 + 4 * (index/4) + (index/4)*32;
+		pos[0] = invx + 8 + 14 * (index%4) + (index%4)*64;
+		pos[1] = invy + 4 + 8 * (index/4) + (index/4)*64;
 		return pos;
 	}
 
