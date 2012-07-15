@@ -3,7 +3,6 @@ package client.core.game.states;
 
 import java.awt.Font;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -37,8 +36,8 @@ public class FightState extends BasicGameState {
 	private Image character;
 	private Image mob;
 	
-	private Font awtFont, awtFont2;
-	private TrueTypeFont font, font2;
+	private Font awtFont;
+	private TrueTypeFont font;
 	
 	private Color colorAtack;
 	private Color colorRetreat;
@@ -60,10 +59,8 @@ public class FightState extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
-		awtFont2 = new Font("Times New Roman", Font.BOLD, 60);
 		
 		font = new TrueTypeFont(awtFont, false);
-		font2 = new TrueTypeFont(awtFont2, false);
 		
 		colorAtack = Color.red;
 		colorRetreat = Color.red;
@@ -111,7 +108,14 @@ public class FightState extends BasicGameState {
 		
 		if( health1 <= 0 || health2 <= 0)
 		{
-			arg1.enterState(RPG372.GAMEPLAY);
+			if(health1 <= 0){
+				LootState loot = (LootState) arg1.getState(RPG372.LOOT);
+				loot.setPlayer(currentPlayer);
+				loot.setMob(currentMob);
+				arg1.enterState(RPG372.LOOT);
+			}else if(health2 <= 0){
+				arg1.enterState(RPG372.GAMEPLAY);
+			}
 		}
 		if( turn % 2 == 0)
 		{

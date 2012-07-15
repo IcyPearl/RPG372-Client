@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import client.core.entities.item.Item;
 import client.core.entities.npc.Mob;
 import client.core.entities.npc.MobData;
+import client.core.entities.npc.MobInventory;
 import client.core.entities.npc.Vendor;
 import client.core.entities.npc.VendorData;
 import client.core.entities.npc.VendorInventory;
@@ -35,6 +36,7 @@ public class RPG372 extends StateBasedGame {
 	public static final int TRADE = 5;
 	public static final int FIGHT = 6;
 	public static final int REGISTER = 7;
+	public static final int LOOT = 8;
 	public static GameInstance gameInstance;
 	
 	public RPG372() {
@@ -57,6 +59,7 @@ public class RPG372 extends StateBasedGame {
 		this.addState(new FightState(FIGHT));
 		this.addState(new TradeState(TRADE));
 		this.addState(new RegisterState(REGISTER));
+		this.addState(new LootState(LOOT));
 	}
 
 	public static void initTestGameInstance() throws SlickException{
@@ -88,16 +91,17 @@ public class RPG372 extends StateBasedGame {
 		plinv.addItem(item2);
 		plinv.addItem(item2);
 		Mob mob = new Mob(213, md, 3, 3, new Image("client/data/mob/mob1.png"));
-		Mob mob1 = new Mob(214, md, 5, 6, new Image("client/data/mob/mob4.png"));
 		Vendor vend = new Vendor(231, vd, 10, 10, new Image("client/data/vendor/vendor1.png"));
 		VendorInventory vendinv = new VendorInventory(vend);
+		MobInventory mobinv = new MobInventory(mob);
+		mobinv.addItem(item1);
 		vendinv.addItem(item1);
 		vendinv.addItem(item2);
 		vd.setInv(vendinv);
+		md.setInv(mobinv);
 		gameInstance = new GameInstance();
 		gameInstance.setCurrentPlayer(pl);
 		gameInstance.addMob(mob);
-		gameInstance.addMob(mob1);
 		gameInstance.addVendor(vend);
 		gameInstance.setMap(new Map(1,1));
 		try {
