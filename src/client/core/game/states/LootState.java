@@ -117,7 +117,8 @@ public class LootState extends BasicGameState {
 	}
 	
 	public void loot(){
-		Item toTrade = currentMob.getMd().getInv().getItem(mobinvselected);
+		MobInventory mobinv = currentMob.getMd().getInv();
+		Item toTrade = mobinv.getItem(mobinvselected);
 		if(toTrade == null){
 			return;
 		}
@@ -126,6 +127,7 @@ public class LootState extends BasicGameState {
 			return;
 		}
 		plinv.addItem(toTrade);
+		mobinv.removeItem(mobinvselected);
 	}
 	
 	private int[] getItemPos(int invx, int invy, int index) {
