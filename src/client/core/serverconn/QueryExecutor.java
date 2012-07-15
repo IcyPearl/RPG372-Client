@@ -16,30 +16,37 @@ public class QueryExecutor {
 	private String serverAdd = "mysql://mefu.mine.nu";
 	private Map<String, ArrayList<String>> mp = null;
 
-	public void SendQuery(String query) throws InstantiationException,
-	IllegalAccessException, ClassNotFoundException, SQLException {
+	public void SendQuery(String query)  {
 		String url = "jdbc:"+serverAdd+"/" + dataBaseName;
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection conn = DriverManager.getConnection(url, userName, password);
-		Statement stmt = conn.createStatement();
+		Connection conn;
+		Statement stmt;
+		Map<String, ArrayList<String>> map;
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection(url, userName, password);
+			stmt = conn.createStatement();
 
-		stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(query);
-		Map<String,ArrayList<String>> map = new HashMap<String,ArrayList<String>>();
-		for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-			map.put(rs.getMetaData().getColumnName(i), new ArrayList<String>());
-		}
-		while(rs.next()){
-			String tmp = "";
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			map = new HashMap<String,ArrayList<String>>();
 			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-				tmp = rs.getMetaData().getColumnName(i);
-				map.get(tmp).add(rs.getString(tmp));
+				map.put(rs.getMetaData().getColumnName(i), new ArrayList<String>());
 			}
+			while(rs.next()){
+				String tmp = "";
+				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+					tmp = rs.getMetaData().getColumnName(i);
+					map.get(tmp).add(rs.getString(tmp));
+				}
+			}
+			conn.close();
+			stmt = null;
+			conn = null;
+			mp = map;
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
 		}
-		conn.close();
-		stmt = null;
-		conn = null;
-		mp = map;
 
 	}
 	
@@ -49,6 +56,10 @@ public class QueryExecutor {
 			rtr.add(mp.get(key).get(index));
 		}
 		return rtr;
+	}
+	
+	public int getResultCount(){
+		return mp.get(mp.keySet().toArray()[0]).size();
 	}
 
 }
