@@ -3,7 +3,6 @@ package client.core.serverconn;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,7 @@ public class QueryExecutor {
 	private String userName = "RPG372USER";
 	private String password = "RPGRPG123";
 	private String serverAdd = "mysql://mefu.mine.nu";
-	private Map<String, ArrayList<String>> mp = null;
+	public Map<String, ArrayList<String>> mp = null;
 
 	public void SendQuery(String query)  {
 		String url = "jdbc:"+serverAdd+"/" + dataBaseName;
