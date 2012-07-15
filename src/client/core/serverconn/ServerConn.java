@@ -41,17 +41,17 @@ public class ServerConn {
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Item WHERE itemId='"+14+"'");
 		System.out.println(qe.mp);
-	try {
-//			MobData md = getMobData(1);
-//			System.out.println(md.getName());
-//			System.out.println(md.getLevel());
-//			System.out.println(md.getInv().getItems());
+		//			MobData md = getMobData(1);
+		//			System.out.println(md.getName());
+		//			System.out.println(md.getLevel());
+		//			System.out.println(md.getInv().getItems());
+		try {
 			System.out.println(getItem(14).getName());
-		} catch (NumberFormatException | SlickException e) {
+		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
-		
+
 	public static ResultSet query(String sqlQuery) {
 		Connection conn = null;
 		try {
@@ -106,34 +106,34 @@ public class ServerConn {
 
 	public static boolean login(String username, String password) {
 		QueryExecutor qe = new QueryExecutor();
-		
+
 		qe.SendQuery("SELECT userId FROM RPG372DB_User WHERE userName='"+username+"' AND password='"+password+"'");
 		return qe.getResultCount() > 0;
 	}
-	
+
 	public static Map getMap(int mapId){
 		return null;
 	}
-	
+
 	public static Vendor getVendor(int vendorId){
 		return null;
 	}
-	
+
 	public static VendorData getVendorData(int vendorId){
 		return null;
 	}
-	
+
 	public static VendorInventory getVendorInventory(int invId){
 		return null;
 	}
-	
-	
+
+
 	//get login usernames player
 	public static Player getPlayer(int userId){
-		
+
 		return null;
 	}
-	
+
 	public static PlayerInventory getPlayerInventory(int playerId){
 		PlayerInventory plinv = new PlayerInventory(null);
 		plinv.setEqarmor(null);
@@ -141,11 +141,11 @@ public class ServerConn {
 		plinv.setGold(0);
 		return null;
 	}
-	
+
 	public static PlayerData getPlayerData(int playerId){
 		return null;
 	}
-	
+
 	public static MobData getMobData(int mobID) throws NumberFormatException, SlickException{
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Mob WHERE mobID='"+mobID+"'" );
@@ -155,17 +155,17 @@ public class ServerConn {
 		md.setLevel(Integer.parseInt(qe.getRow(0).get(3)));
 		md.setName(qe.getRow(0).get(0));
 		md.setInv(getMobInventory(Integer.parseInt(qe.getRow(0).get(4))));
-		
+
 		return md;
 	}
 	private static MobInventory getMobInventory(int invId) throws SlickException{
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Inventory WHERE invId='"+invId+"'");
-		
+
 		if(qe.getResultCount()==0)
 			return null;
 		MobInventory mobInv = new MobInventory(null);
-			int tempId;
+		int tempId;
 		for (int i = 0; i < 16; i++) {
 			tempId = Integer.parseInt(qe.getRow(0).get(2));
 			if(tempId == 0)
@@ -174,7 +174,7 @@ public class ServerConn {
 				mobInv.addItem(getItem(tempId));
 			}
 		}
-		
+
 		return mobInv;
 	}
 	public static Item getItem(int itemId) throws SlickException{
@@ -185,7 +185,7 @@ public class ServerConn {
 		Item item = new Item(itemId);
 		item.setName(qe.getRow(0).get(0));
 		item.setValue(Integer.parseInt(qe.getRow(0).get(3)));
-		
+
 		//IF MISC
 		if(qe.getRow(0).get(4).equalsIgnoreCase("1"))
 			return item;
