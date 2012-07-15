@@ -35,6 +35,7 @@ public class FightState extends BasicGameState {
 	
 	private Image character;
 	private Image mob;
+	private Image background;
 	
 	private Font awtFont;
 	private TrueTypeFont font;
@@ -58,6 +59,8 @@ public class FightState extends BasicGameState {
 
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
+		background = new Image("client/data/backgrounds/fightbg3.jpg");
+		
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		
 		font = new TrueTypeFont(awtFont, false);
@@ -74,6 +77,7 @@ public class FightState extends BasicGameState {
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException
 	{	
+		background.draw(0,0,1366,768);
 		character.draw(charx,chary);
 		mob.draw(mobx,moby);
 		
