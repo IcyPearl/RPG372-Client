@@ -21,16 +21,12 @@ public class ServerConn {
 	final static String userName = "RPG372USER";
 	final static String password = "RPGRPG123";
 	final static String url = "jdbc:mysql://mefu.mine.nu/RPG372DB";
-	
+	static Connection conn = null;
 	public static void main(String[] args) {
-		ResultSet t = query("select * from StructureRPG372DB_Cell");
-		try {
-			System.out.println(t.getInt(t.findColumn("x")));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+
+		System.out.println(login("SelcukTestUser", "123"));
 	}
+		
 	private static ResultSet query(String sqlQuery) {
 		Connection conn = null;
 		try {
@@ -43,7 +39,6 @@ public class ServerConn {
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sqlQuery);
-			rs.close();
 			conn.close();
 		} catch (Exception e) {
 		}
@@ -85,8 +80,16 @@ public class ServerConn {
 	 */
 
 	public static boolean login(String username, String password) {
-
-		return false;
+		QueryExecutor qr = new QueryExecutor();
+		
+		qr.SendQuery("SELECT userId FROM RPG372DB_User WHERE userName='"+username+"' AND password='"+password+"'");
+		return qr.getResultCount() > 0;
+	}
+	
+	public static void getMob(int mobID){
+		QueryExecutor qr = new QueryExecutor();
+		qr.SendQuery("SELECT userId FROM RPG372DB_Mob WHERE mobID='"+mobID+"'" );
+		
 	}
 
 }
