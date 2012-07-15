@@ -68,7 +68,7 @@ public class RPG372 extends StateBasedGame {
 		VendorData vd = new VendorData();
 		pd.setLevel(5);
 		pd.setName("Mefu");
-		md.setLevel(7);
+		md.setLevel(3);
 		md.setName("Jordan");
 		vd.setName("Ibne Satici");
 		int posx = 0;
