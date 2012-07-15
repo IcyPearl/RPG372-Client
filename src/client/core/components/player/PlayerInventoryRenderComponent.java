@@ -18,7 +18,7 @@ public class PlayerInventoryRenderComponent extends RenderComponent {
 
 	private boolean draw;
 	private Image invbg;
-	
+
 	public PlayerInventoryRenderComponent(int id) {
 		super(id);
 		draw = false;
@@ -39,7 +39,8 @@ public class PlayerInventoryRenderComponent extends RenderComponent {
 			while(iterator.hasNext()){
 				int[] pos = getItemPos(invx, invy, iterator.nextIndex());
 				Item current = iterator.next();
-				current.getIcon().draw(pos[0], pos[1]);
+				if(current != null)
+					current.getIcon().draw(pos[0], pos[1]);
 			}
 			gr.drawString("Gold = " + plinv.getGold(), invx, invy + invbg.getHeight());
 		}
