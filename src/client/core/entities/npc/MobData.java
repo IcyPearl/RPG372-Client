@@ -39,6 +39,10 @@ public class MobData {
 		return dmg;
 	}
 	
+	public int getDropGold(){
+		return level * 10;
+	}
+	
 	public int getMaxHealth() {
 		return level * 10;
 	}

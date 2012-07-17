@@ -36,6 +36,7 @@ public class LootState extends BasicGameState {
 	private int mobinvselected;
 	private int plinvx, plinvy, mobinvy, mobinvx, midx, midy;
 
+	private boolean goldLooted;
 	
 	private Color colorLoot, colorExit;
 	
@@ -149,6 +150,7 @@ public class LootState extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
 		container.getInput().clearKeyPressedRecord();
 		container.getInput().clearMousePressedRecord();
+		goldLooted = false;
 	}
 
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
@@ -156,7 +158,16 @@ public class LootState extends BasicGameState {
 		container.getInput().clearMousePressedRecord();
 	}
 	
+	public void lootGold(){
+		PlayerInventory plinv = currentPlayer.getPD().getInv();
+		if(!goldLooted){
+			plinv.setGold(plinv.getGold() + currentMob.getMd().getDropGold());
+			goldLooted = true;
+		}
+	}
+	
 	public void loot(){
+		lootGold();
 		MobInventory mobinv = currentMob.getMd().getInv();
 		Item toTrade = mobinv.getItem(mobinvselected);
 		if(toTrade == null){
