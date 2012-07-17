@@ -68,6 +68,10 @@ public class Inventory {
 		}
 	}
 	
+	public void setItem(int n, Item item){
+		items.set(n, item);
+	}
+	
 	public ArrayList<Item> getItems(){
 		return items;
 	}

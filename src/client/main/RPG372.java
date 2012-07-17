@@ -30,6 +30,7 @@ import client.core.serverconn.ServerConn;
  * This should display a black screen. Use it for testing if slick and lwjgl are working.
  * @author Mefu
  */
+
 public class RPG372 extends StateBasedGame {
 
 	public static final int LOGIN = 1;
@@ -52,10 +53,10 @@ public class RPG372 extends StateBasedGame {
 		app.setDisplayMode(1366, 768, false);
 		app.setFullscreen(true);
 		app.start();
-		RPG372.initTestGameInstance();
 	}
 
 	public void initStatesList(GameContainer arg0) throws SlickException {
+		RPG372.initTestGameInstance();
 		this.addState(new LoginState(LOGIN));
 		this.addState(new MainMenuState(MENU));
 		this.addState(new PlayMenuState(PLAYMENU));
@@ -84,11 +85,16 @@ public class RPG372 extends StateBasedGame {
 		item1.setName("Magic Powder");
 		item1.setValue(30);
 		Armor item2 = new Armor(5);
+		Armor item4 = new Armor(3);
 		Weapon item3 = new Weapon(6);
 		item2.setDefence(5);
+		item4.setDefence(10);
 		item2.setIcon(new Image("client/data/items/armor/Armor1.png"));
+		item4.setIcon(new Image("client/data/items/armor/Armor2.png"));
 		item2.setName("Yellow Armor");
+		item4.setName("Chain Mail");
 		item2.setValue(50);
+		item4.setValue(100);
 		item3.setDamage(5);
 		item3.setIcon(new Image("client/data/items/weapon/Weapon1.png"));
 		item3.setName("Hammer");
@@ -97,8 +103,8 @@ public class RPG372 extends StateBasedGame {
 		plinv.addItem(item2);
 		plinv.addItem(item2);
 		plinv.addItem(item2);
-		plinv.setEqarmor(item2);
-		plinv.setEqweapon(item3);
+		plinv.addItem(item4);
+		plinv.addItem(item3);
 		Vendor vend = new Vendor(231, vd, 10, 10, new Image("client/data/vendor/vendor1.png"));
 		VendorInventory vendinv = new VendorInventory(vend);
 		vendinv.addItem(item1);

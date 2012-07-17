@@ -12,7 +12,7 @@ public class QueryExecutor {
 	private String userName = "RPG372USER";
 	private String password = "RPGRPG123";
 	private String serverAdd = "mysql://mefu.mine.nu";
-	//private String serverAdd = "mysql://10.10.113.178"; //Yurtta kullaniyorum silmeyin.
+//	private String serverAdd = "mysql://10.10.113.178"; //Yurtta kullaniyorum silmeyin.
 	
 	public ArrayList<String> cols = null;
 	public ArrayList<ArrayList<String>> vals = null;
