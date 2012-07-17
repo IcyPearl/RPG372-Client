@@ -88,5 +88,8 @@ public class Map {
 	public int getId() {
 		return mapId;
 	}
+	public void setCell(int x,int y,int type){
+		grid[x][y] = type;
+	}
 	
 }

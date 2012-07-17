@@ -26,7 +26,6 @@ public class QueryExecutor {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection(url, userName, password);
 			stmt = conn.createStatement();
-			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			cols = new ArrayList<String>();
 			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
@@ -48,6 +47,24 @@ public class QueryExecutor {
 		}
 
 	}
+
+	public void updateQuery(String sql) {
+		String url = "jdbc:"+serverAdd+"/" + dataBaseName;
+		Connection conn;
+		Statement stmt;
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection(url, userName, password);
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+			conn.close();
+			stmt = null;
+			conn = null;
+		} catch (Exception  e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public ArrayList<String> getFirst(){
 		return vals.get(0);
 	}
