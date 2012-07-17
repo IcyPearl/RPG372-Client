@@ -12,9 +12,7 @@ public class ItemFactory {
 	private static ArrayList<Item> items;
 	
 	public static void loadItems() throws SlickException {
-		for(int i = 1 ; i <= 30 ; i++){
-			items.add(ServerConn.getItem(i));
-		}
+		items = ServerConn.getItemList();
 	}
 	
 	public static Item getItem(int itemId){

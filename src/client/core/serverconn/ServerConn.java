@@ -1,5 +1,7 @@
 package client.core.serverconn;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.SlickException;
 
 import client.core.entities.item.Armor;
@@ -23,21 +25,14 @@ import client.core.map.Map;
  */
 
 public class ServerConn {
-	
+
 	//For holding user id of user that log on.
 	private static int userId ;
 
-	public static void main(String[] args) {
-		QueryExecutor qe = new QueryExecutor();
-		qe.SendQuery("SELECT * FROM RPG372DB_Item WHERE itemId='"+14+"'");
-		System.out.println(qe.vals);
-		try {
-			System.out.println(getItem(14).getName());
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws SlickException {
+		System.out.println(getItemList());
 	}
-	
+
 	/**
 	 * Will query server db and returns if login is successful.
 	 * Got to save log on user id at somewhere so when player is requested
@@ -46,14 +41,14 @@ public class ServerConn {
 	 * @param password
 	 * @return
 	 */
-	
+
 	public static boolean login(String username, String password){
 		QueryExecutor qe = new QueryExecutor();
 
 		qe.SendQuery("SELECT userId FROM RPG372DB_User WHERE userName='"+username+"' AND password='"+password+"'");
 		return qe.resultSize() > 0;
 	}
-	
+
 	/**
 	 * Will register user to db. For now it doesnt work, because
 	 * Can not issue data manipulation statements with executeQuery().
@@ -62,7 +57,7 @@ public class ServerConn {
 	 * @param password
 	 * @return
 	 */
-	
+
 	public static boolean register(String username, String password){
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("INSERT INTO RPG372DB_User VALUES ('" + username + "','" + password + "')");
@@ -72,7 +67,7 @@ public class ServerConn {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Will return player.Image loading is a problem. We'll see after we try it when
 	 * game loop started.
@@ -83,19 +78,19 @@ public class ServerConn {
 		getPlayerData(userId);//To get rid of not used errors
 		return null;
 	}
-	
+
 	public static Vendor getVendor(int vendorId){
 		getVendorData(vendorId);//To get rid of not used errors.
 		getVendorInventory(vendorId);
 		return null;
 	}
-	
+
 	public static Mob getMob(int mobId) throws SlickException{
 		getMobData(mobId);//To get rid of not used errors
 		getMobInventory(mobId);
 		return null;
 	}
-	
+
 	public static Item getItem(int itemId) throws SlickException{
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Item WHERE itemId='"+itemId+"'");
@@ -127,7 +122,7 @@ public class ServerConn {
 		//ELSE
 		return null;
 	}
-	
+
 	/**
 	 * Will return current map of user.
 	 * Will use SAVED userId to get mapID.
@@ -136,7 +131,7 @@ public class ServerConn {
 	public static Map getMap(){
 		return null;
 	}
-	
+
 	/**
 	 * Will return map with that id.
 	 * @param mapId
@@ -150,11 +145,11 @@ public class ServerConn {
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Player WHERE userId='"+playerId+"'");
 		PlayerData pData = new PlayerData();
-		
+
 		pData.setLevel(Integer.parseInt(qe.getFirst().get(6)));
 		pData.setName(qe.getFirst().get(0));
 		pData.setInv(getPlayerInventory(playerId));
-		
+
 		return null;
 	}
 
@@ -180,18 +175,18 @@ public class ServerConn {
 				pi.addItem(getItem(tempId));
 			}
 		}
-		
+
 		PlayerInventory plinv = new PlayerInventory(null);
 		plinv.setEqarmor((Armor)getItem(Integer.parseInt(qe.vals.get(16).get(2))));
 		plinv.setEqweapon((Weapon)getItem(Integer.parseInt(qe.vals.get(17).get(2))));
 		plinv.setGold(gold);
 		return plinv;
 	}
-	
+
 	private static VendorData getVendorData(int vendorId){
 		return null;
 	}
-	
+
 	/**
 	 * Use ItemFactory. It is guaranteed to be loaded before this method is called.
 	 * @param invId
@@ -213,7 +208,7 @@ public class ServerConn {
 
 		return md;
 	}
-	
+
 	/**
 	 * Use ItemFactory. It is guaranteed to be loaded before this method is called.
 	 * @param invId
@@ -238,5 +233,46 @@ public class ServerConn {
 		}
 
 		return mobInv;
+	}
+
+	public static ArrayList<Item> getItemList() throws SlickException{
+		QueryExecutor qe = new QueryExecutor();
+		QueryExecutor qe1 = new QueryExecutor();
+		ArrayList<ArrayList<String>> items;
+		ArrayList<Item> rtrItems = new ArrayList<Item>();
+		for (int i = 0; i <= 30; i++) {
+			rtrItems.add(null);
+		}
+		qe.SendQuery("SELECT * FROM RPG372DB_Item ORDER BY itemID ASC");
+		items = qe.vals;
+		for (int i = 0; i < items.size(); i++) {
+			int itemId = Integer.parseInt(items.get(i).get(0));
+			Item item = new Item(itemId);
+			item.setName(qe.getFirst().get(2));
+			item.setValue(Integer.parseInt(qe.getFirst().get(4)));
+
+			//IF MISC
+			if(items.get(i).get(1).equals("1"))
+				rtrItems.set(itemId, item);
+			//IF ARMOR
+			else if(items.get(i).get(1).equals("2")){
+				//item.setIcon(new Image("client/data/items/armor/Armor"+(itemId%10)+".png"));
+				Armor armor = item.getArmor();
+				qe1.SendQuery("SELECT * FROM RPG372DB_Item_Armor WHERE itemId='"+itemId+"'");
+				armor.setDefence(Integer.parseInt(qe1.getFirst().get(1)));
+				rtrItems.set(itemId, armor);
+			}
+			//IF WEAPON
+			else if(items.get(i).get(1).equals("3")){
+				//item.setIcon(new Image("client/data/items/weapon/Weapon"+(itemId%10)+".png"));
+				Weapon weapon = item.getWeapon();
+				qe1.SendQuery("SELECT * FROM RPG372DB_Item_Weapon WHERE itemId='"+itemId+"'");
+				weapon.setDamage(Integer.parseInt(qe1.getFirst().get(1)));
+				rtrItems.set(itemId, weapon);
+			}
+		}
+		
+		return rtrItems;
+
 	}
 }
