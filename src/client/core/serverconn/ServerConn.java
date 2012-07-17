@@ -40,11 +40,6 @@ public class ServerConn {
 
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Item WHERE itemId='"+14+"'");
-		System.out.println(qe.mp);
-		//			MobData md = getMobData(1);
-		//			System.out.println(md.getName());
-		//			System.out.println(md.getLevel());
-		//			System.out.println(md.getInv().getItems());
 		try {
 			System.out.println(getItem(14).getName());
 		} catch (SlickException e) {
@@ -108,7 +103,7 @@ public class ServerConn {
 		QueryExecutor qe = new QueryExecutor();
 
 		qe.SendQuery("SELECT userId FROM RPG372DB_User WHERE userName='"+username+"' AND password='"+password+"'");
-		return qe.getResultCount() > 0;
+		return qe.resultSize() > 0;
 	}
 
 	public static Map getMap(int mapId){
@@ -134,27 +129,51 @@ public class ServerConn {
 		return null;
 	}
 
-	public static PlayerInventory getPlayerInventory(int playerId){
+	public static PlayerInventory getPlayerInventory(int playerId) throws SlickException{
+		QueryExecutor qe = new QueryExecutor();
+		qe.SendQuery("SELECT * FROM RPG372DB_Player WHERE userId='"+playerId+"'");
+		int invId = Integer.parseInt(qe.getFirst().get(4));
+		int gold = Integer.parseInt(qe.getFirst().get(8));
+		qe.SendQuery("SELECT * FROM RPG372DB_Inventory WHERE invId='"+invId+"'");
+		PlayerInventory pi = new PlayerInventory(null);
+		int tempId;
+		for (int i = 0; i < 16; i++) {
+			tempId = Integer.parseInt(qe.vals.get(i).get(2));
+			if(tempId == 0)
+				continue;
+			else{
+				pi.addItem(getItem(tempId));
+			}
+		}
+		
 		PlayerInventory plinv = new PlayerInventory(null);
-		plinv.setEqarmor(null);
-		plinv.setEqweapon(null);
-		plinv.setGold(0);
-		return null;
+		plinv.setEqarmor((Armor)getItem(Integer.parseInt(qe.vals.get(16).get(2))));
+		plinv.setEqweapon((Weapon)getItem(Integer.parseInt(qe.vals.get(17).get(2))));
+		plinv.setGold(gold);
+		return plinv;
 	}
 
-	public static PlayerData getPlayerData(int playerId){
+	public static PlayerData getPlayerData(int playerId) throws SlickException{
+		QueryExecutor qe = new QueryExecutor();
+		qe.SendQuery("SELECT * FROM RPG372DB_Player WHERE userId='"+playerId+"'");
+		PlayerData pData = new PlayerData();
+		
+		pData.setLevel(Integer.parseInt(qe.getFirst().get(6)));
+		pData.setName(qe.getFirst().get(0));
+		pData.setInv(getPlayerInventory(playerId));
+		
 		return null;
 	}
 
 	public static MobData getMobData(int mobID) throws NumberFormatException, SlickException{
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Mob WHERE mobID='"+mobID+"'" );
-		if(qe.getResultCount() == 0)
+		if(qe.resultSize() == 0)
 			return null;
 		MobData md = new MobData();
-		md.setLevel(Integer.parseInt(qe.getRow(0).get(3)));
-		md.setName(qe.getRow(0).get(0));
-		md.setInv(getMobInventory(Integer.parseInt(qe.getRow(0).get(4))));
+		md.setLevel(Integer.parseInt(qe.getFirst().get(3)));
+		md.setName(qe.getFirst().get(1));
+		md.setInv(getMobInventory(Integer.parseInt(qe.getFirst().get(4))));
 
 		return md;
 	}
@@ -162,12 +181,12 @@ public class ServerConn {
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Inventory WHERE invId='"+invId+"'");
 
-		if(qe.getResultCount()==0)
+		if(qe.resultSize()==0)
 			return null;
 		MobInventory mobInv = new MobInventory(null);
 		int tempId;
 		for (int i = 0; i < 16; i++) {
-			tempId = Integer.parseInt(qe.getRow(0).get(2));
+			tempId = Integer.parseInt(qe.vals.get(i).get(2));
 			if(tempId == 0)
 				continue;
 			else{
@@ -180,32 +199,34 @@ public class ServerConn {
 	public static Item getItem(int itemId) throws SlickException{
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Item WHERE itemId='"+itemId+"'");
-		if(qe.getResultCount()!=1)
+		if(qe.resultSize()!=1)
 			return null;
 		Item item = new Item(itemId);
-		item.setName(qe.getRow(0).get(0));
-		item.setValue(Integer.parseInt(qe.getRow(0).get(3)));
+		item.setName(qe.getFirst().get(2));
+		item.setValue(Integer.parseInt(qe.getFirst().get(4)));
 
 		//IF MISC
-		if(qe.getRow(0).get(4).equalsIgnoreCase("1"))
+		if(qe.getFirst().get(1).equals("1"))
 			return item;
 		//IF ARMOR
-		if(qe.getRow(0).get(4).equalsIgnoreCase("2")){
+		if(qe.getFirst().get(1).equals("2")){
 			item.setIcon(new Image("client/data/items/armor/Armor"+(itemId%10)+".png"));
 			Armor armor = (Armor)item;
 			qe.SendQuery("SELECT * FROM RPG372DB_Item_Armor WHERE itemId='"+itemId+"'");
-			armor.setDefence(Integer.parseInt(qe.getRow(0).get(1)));
+			armor.setDefence(Integer.parseInt(qe.getFirst().get(1)));
 			return armor;
 		}
 		//IF WEAPON
-		if(qe.getRow(0).get(4).equalsIgnoreCase("3")){
+		if(qe.getFirst().get(1).equals("3")){
 			item.setIcon(new Image("client/data/items/weapon/Weapon"+(itemId%10)+".png"));
 			Weapon weapon = (Weapon)item;
 			qe.SendQuery("SELECT * FROM RPG372DB_Item_Weapon WHERE itemId='"+itemId+"'");
-			weapon.setDamage(Integer.parseInt(qe.getRow(0).get(1)));
+			weapon.setDamage(Integer.parseInt(qe.getFirst().get(1)));
 			return weapon;
 		}
 		//ELSE
 		return null;
 	}
+	
+	
 }

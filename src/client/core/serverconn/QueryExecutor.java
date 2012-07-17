@@ -13,51 +13,47 @@ public class QueryExecutor {
 	private String userName = "RPG372USER";
 	private String password = "RPGRPG123";
 	private String serverAdd = "mysql://mefu.mine.nu";
-	public Map<String, ArrayList<String>> mp = null;
+	public ArrayList<String> cols = null;
+	public ArrayList<ArrayList<String>> vals = null;
 
 	public void SendQuery(String query)  {
 		String url = "jdbc:"+serverAdd+"/" + dataBaseName;
 		Connection conn;
 		Statement stmt;
 		Map<String, ArrayList<String>> map;
+		vals = new ArrayList<ArrayList<String>>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection(url, userName, password);
 			stmt = conn.createStatement();
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			map = new HashMap<String, ArrayList<String>>();
+			cols = new ArrayList<String>();
 			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-				map.put(rs.getMetaData().getColumnName(i),
-						new ArrayList<String>());
+				cols.add(rs.getMetaData().getColumnName(i));
 			}
+			ArrayList<String> temp = null;
 			while (rs.next()) {
-				String tmp = "";
-				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-					tmp = rs.getMetaData().getColumnName(i);
-					map.get(tmp).add(rs.getString(tmp));
+				temp = new ArrayList<String>();
+				for (int i = 1; i <= cols.size(); i++) {
+					temp.add(rs.getString(i));
 				}
+				vals.add(temp);
 			}
 			conn.close();
 			stmt = null;
 			conn = null;
-			mp = map;
 		} catch (Exception  e) {
 			e.printStackTrace();
 		}
 
 	}
-
-	public ArrayList<String> getRow(int index){
-		ArrayList<String> rtr = new ArrayList<String>();
-		for(String key:mp.keySet()){
-			rtr.add(mp.get(key).get(index));
-		}
-		return rtr;
+	public ArrayList<String> getFirst(){
+		return vals.get(0);
+	}
+	public int resultSize(){
+		return vals.size();
 	}
 
-	public int getResultCount(){
-		return mp.get(mp.keySet().toArray()[0]).size();
-	}
 
 }
