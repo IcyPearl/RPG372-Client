@@ -4,15 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
 
 public class QueryExecutor {
+	
 	private String dataBaseName = "RPG372DB";
 	private String userName = "RPG372USER";
 	private String password = "RPGRPG123";
 	private String serverAdd = "mysql://mefu.mine.nu";
+	//private String serverAdd = "mysql://10.10.113.178"; //Yurtta kullaniyorum silmeyin.
+	
 	public ArrayList<String> cols = null;
 	public ArrayList<ArrayList<String>> vals = null;
 
@@ -20,7 +21,6 @@ public class QueryExecutor {
 		String url = "jdbc:"+serverAdd+"/" + dataBaseName;
 		Connection conn;
 		Statement stmt;
-		Map<String, ArrayList<String>> map;
 		vals = new ArrayList<ArrayList<String>>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();

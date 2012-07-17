@@ -10,7 +10,9 @@ import client.core.entities.item.Item;
 import client.core.entities.npc.Mob;
 import client.core.entities.npc.MobData;
 import client.core.entities.npc.MobInventory;
+import client.core.entities.npc.MobSpawner;
 import client.core.entities.npc.Vendor;
+import client.core.entities.npc.VendorSpawner;
 import client.core.entities.player.Player;
 import client.core.map.Map;
 
@@ -22,15 +24,13 @@ import client.core.map.Map;
  */
 
 public class GameInstance {
-	
+
 	private Map map;
 	private Player currentPlayer;
-	private ArrayList<Player> otherPlayers;
 	private ArrayList<Mob> mobs;
 	private ArrayList<Vendor> vendors;
-	
+
 	public GameInstance(){
-		otherPlayers = new ArrayList<Player>();
 		mobs = new ArrayList<Mob>();
 		vendors = new ArrayList<Vendor>();
 	}
@@ -49,7 +49,7 @@ public class GameInstance {
 		}
 		return vend;
 	}
-	
+
 	public Mob getNearestMob(){
 		Mob mob = null;
 		int i = currentPlayer.getPosX();
@@ -64,16 +64,16 @@ public class GameInstance {
 		}
 		return mob;
 	}
-	
+
 	private boolean isNear(int i1, int j1, int i2, int j2){
 		int idif = Math.abs(i1-i2);
 		int jdif = Math.abs(j1-j2);
-		
+
 		if(idif > -1 && idif < 2 && jdif > -1 && jdif < 2)
 			return true;
 		return false;
 	}
-	
+
 	public void spawnMobs() throws SlickException{
 		while(mobs.size() < 3){
 			Item item1 = new Item(10);
@@ -89,8 +89,27 @@ public class GameInstance {
 			md.setInv(mobinv);
 			mobs.add(mob);
 		}
+		
+		int mapId = this.map.getId();
+		while(mobs.size() < 3){
+			int random = (int) (Math.random() * 3);
+			Mob mob = null;
+			if(mapId < 4)
+				mob = MobSpawner.getMob(mapId * 3 + random + 1);
+			else if(mapId == 4)
+				mob = MobSpawner.getMob(13);
+			mobs.add(mob);
+		}
 	}
-	
+
+	public void spawnVendor() throws SlickException {
+		if(vendors.isEmpty()){
+			int mapId = this.map.getId();
+			Vendor vendor = VendorSpawner.getVendor(mapId);
+			vendors.add(vendor);
+		}
+	}
+
 	public Map getMap() {
 		return map;
 	}
@@ -107,22 +126,10 @@ public class GameInstance {
 		this.currentPlayer = currentPlayer;
 	}
 
-	public ArrayList<Player> getOtherPlayers() {
-		return otherPlayers;
-	}
-
-	public void addOtherPlayer(Player player){
-		otherPlayers.add(player);
-	}
-	
-	public void setOtherPlayers(ArrayList<Player> otherPlayers) {
-		this.otherPlayers = otherPlayers;
-	}
-	
 	public ArrayList<Mob> getMobs() {
 		return mobs;
 	}
-	
+
 	public void addMob(Mob mob){
 		mobs.add(mob);
 	}
@@ -130,11 +137,11 @@ public class GameInstance {
 	public void setMobs(ArrayList<Mob> mobs) {
 		this.mobs = mobs;
 	}
-	
+
 	public ArrayList<Vendor> getVendors() {
 		return vendors;
 	}
-	
+
 
 	public void addVendor(Vendor vendor){
 		vendors.add(vendor);
@@ -143,5 +150,5 @@ public class GameInstance {
 	public void setVendors(ArrayList<Vendor> vendors) {
 		this.vendors = vendors;
 	}
-	
+
 }

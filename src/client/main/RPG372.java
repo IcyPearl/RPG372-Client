@@ -10,16 +10,20 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import client.core.entities.item.Armor;
 import client.core.entities.item.Item;
+import client.core.entities.item.ItemFactory;
 import client.core.entities.item.Weapon;
+import client.core.entities.npc.MobSpawner;
 import client.core.entities.npc.Vendor;
 import client.core.entities.npc.VendorData;
 import client.core.entities.npc.VendorInventory;
+import client.core.entities.npc.VendorSpawner;
 import client.core.entities.player.Player;
 import client.core.entities.player.PlayerData;
 import client.core.entities.player.PlayerInventory;
 import client.core.game.GameInstance;
 import client.core.game.states.*;
 import client.core.map.Map;
+import client.core.serverconn.ServerConn;
 
 /**
  * States will be initialized here and game will be started.
@@ -37,19 +41,20 @@ public class RPG372 extends StateBasedGame {
 	public static final int REGISTER = 7;
 	public static final int LOOT = 8;
 	public static GameInstance gameInstance;
-	
+
 	public RPG372() {
 		super("RPG372");
 	}
-	
+
 	public static void main(String[] args) throws SlickException{
-         AppGameContainer app = new AppGameContainer(new RPG372());
- 
-         app.setDisplayMode(1366, 768, false);
-         app.setFullscreen(true);
-         app.start();
-    }
-	
+		AppGameContainer app = new AppGameContainer(new RPG372());
+
+		app.setDisplayMode(1366, 768, false);
+		app.setFullscreen(true);
+		app.start();
+		RPG372.initTestGameInstance();
+	}
+
 	public void initStatesList(GameContainer arg0) throws SlickException {
 		this.addState(new LoginState(LOGIN));
 		this.addState(new MainMenuState(MENU));
@@ -102,11 +107,32 @@ public class RPG372 extends StateBasedGame {
 		gameInstance = new GameInstance();
 		gameInstance.setCurrentPlayer(pl);
 		gameInstance.addVendor(vend);
-		gameInstance.setMap(new Map(1,1));
+		gameInstance.setMap(new Map(1,1,10));
 		try {
 			gameInstance.getMap().readMap("src/client/data/map/map1.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void loadDB() throws SlickException{
+		ItemFactory.loadItems();
+		MobSpawner.loadMobs();
+		VendorSpawner.loadVendors();
+	}
+	
+	public static void initGameInstance() throws SlickException {
+		loadDB();
+		gameInstance = new GameInstance();
+		gameInstance.setCurrentPlayer(ServerConn.getPlayer());
+		gameInstance.setMap(ServerConn.getMap());
+		gameInstance.spawnMobs();
+		gameInstance.spawnVendor();
+	}
+	
+	public static void changeMap(int mapId) throws SlickException{
+		gameInstance.setMap(ServerConn.getMap(mapId));
+		gameInstance.spawnMobs();
+		gameInstance.spawnVendor();
 	}
 }

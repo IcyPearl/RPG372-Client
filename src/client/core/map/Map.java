@@ -12,11 +12,14 @@ import java.io.IOException;
 
 public class Map {
 
+	private int mapId;
+	
 	private int[][] grid;
 	private int x; 
 	private int y;
 	
-	public Map(int x, int y){
+	public Map(int x, int y, int mapId){
+		this.mapId = mapId;
 		grid = new int[x][y];
 		this.setX(x);
 		this.setY(y);
@@ -80,6 +83,10 @@ public class Map {
 		}else{
 			return true;
 		}
+	}
+
+	public int getId() {
+		return mapId;
 	}
 	
 }

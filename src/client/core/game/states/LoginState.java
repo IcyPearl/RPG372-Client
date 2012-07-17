@@ -13,6 +13,7 @@ import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import client.core.serverconn.ServerConn;
 import client.main.RPG372;
 
 @SuppressWarnings("deprecation")
@@ -96,8 +97,13 @@ public class LoginState extends BasicGameState{
 		{
 			color1 = new Color(29, 55, 169);
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				this.setInput(false);
-				arg1.enterState(RPG372.MENU);
+				if(ServerConn.login(txt.getText(), txt2.getText())){
+					this.setInput(false);
+					//RPG372.initGameInstance(); //this should be done in loading state.
+					arg1.enterState(RPG372.MENU);
+				}else{
+					//false login warning
+				}
 			}
 		}
 		if(mousex > 450 && mousex < 510 && mousey > 500 && mousey < 524) // EXIT
@@ -105,7 +111,7 @@ public class LoginState extends BasicGameState{
 			color2 = new Color(29, 55, 169);
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				this.setInput(false);
-				arg1.enterState(RPG372.MENU);
+				System.exit(0);
 			}
 		}
 	}

@@ -13,6 +13,7 @@ import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import client.core.serverconn.ServerConn;
 import client.main.RPG372;
 
 
@@ -104,7 +105,10 @@ public class RegisterState extends BasicGameState
 		{
 			color1 =  new Color(247, 173, 36);
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				this.setInput(false);
+				if(ServerConn.register(newUsername.getText(), newPassword.getText())){
+					this.setInput(false);
+					arg1.enterState(RPG372.MENU);
+				}
 			}
 			//Database iþlemleri
 		}
