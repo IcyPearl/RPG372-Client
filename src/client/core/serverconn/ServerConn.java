@@ -116,7 +116,7 @@ public class ServerConn {
 	 * @return
 	 */
 	public static Map getMap() {
-		int Bu_Ne_Yapar_Haci;
+		int Yazdik_Ya_Amk_Tepeye_Oyun_Ilk_basladiginda_Hangi_mapda_olduumuzu_Bilmok_Ona_Gore_Dondurcek;
 		return null;
 	}
 
