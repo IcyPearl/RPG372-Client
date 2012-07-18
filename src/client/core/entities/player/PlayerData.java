@@ -9,6 +9,7 @@ public class PlayerData {
 	
 	private int level;
 	private String name;
+	private int gender;
 	
 	private PlayerInventory inv;
 	
@@ -67,6 +68,14 @@ public class PlayerData {
 
 	public void setInv(PlayerInventory inv) {
 		this.inv = inv;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
 	}
 	
 }

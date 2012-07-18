@@ -24,6 +24,13 @@ public class Vendor extends LivingEntity {
 		this.setImage(img);
 		this.addComponent(new VendorRenderComponent(VENDORRENDCOMP));
 	}
+	
+	public Vendor(int id, VendorData vd, Image img) {
+		super(id);
+		this.vd = vd;
+		this.setImage(img);
+		this.addComponent(new VendorRenderComponent(VENDORRENDCOMP));
+	}
 
 	public VendorData getVd() {
 		return vd;

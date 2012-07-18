@@ -29,29 +29,29 @@ import client.main.RPG372;
 public class FightState extends BasicGameState {
 
 	private int id;
-	
+
 	private Player currentPlayer;
 	private Mob currentMob;
-	
+
 	private Image character;
 	private Image mob;
 	private Image background;
-	
+
 	private Font awtFont;
 	private TrueTypeFont font;
-	
+
 	private Color colorAtack;
 	private Color colorRetreat;
-	
+
 	int health1, health2;
 	int turn = 0;
-	
+
 	int charx,chary;
 	int mobx,moby;
-	
+
 	private String actionMessage1="" , actionMessage2="";
 	private String turnMessage = "";
-	
+
 
 	public FightState(int id){
 		this.id = id;
@@ -60,17 +60,17 @@ public class FightState extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
 		background = new Image("client/data/backgrounds/fightbg3.jpg");
-		
+
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);
-		
+
 		font = new TrueTypeFont(awtFont, false);
-		
+
 		colorAtack = Color.red;
 		colorRetreat = Color.red;
-		
+
 		charx = 300;
 		chary = 400;
-		
+
 		mobx  = 300;
 		moby  = 200;
 	}
@@ -80,18 +80,18 @@ public class FightState extends BasicGameState {
 		background.draw(0,0,1366,768);
 		character.draw(charx,chary);
 		mob.draw(mobx,moby);
-		
+
 		font.drawString(500, 200, currentMob.getMd().getName());
 		font.drawString(500, 250, "Level: " + currentMob.getMd().getLevel());
 		font.drawString(500, 300, "Health: "+ health1);
-		
+
 		font.drawString(500, 400, currentPlayer.getPD().getName());
 		font.drawString(500, 450, "Level: " + currentPlayer.getPD().getLevel());
 		font.drawString(500, 500, "Health: " + health2);
-		
+
 		font.drawString(700, 450, "ATACK",colorAtack);
 		font.drawString(700, 500, "RETREAT",colorRetreat);
-		
+
 		font.drawString(700, 200, actionMessage1);
 		font.drawString(700, 400, actionMessage2);
 		font.drawString(700, 150, turnMessage);
@@ -103,13 +103,13 @@ public class FightState extends BasicGameState {
 		int mousex, mousey;
 		mousex = in.getMouseX();
 		mousey = in.getMouseY();
-		
+
 		charx = 300;
 		chary = 400;
-		
+
 		mobx  = 300;
 		moby  = 200;
-		
+
 		if( health1 <= 0 || health2 <= 0)
 		{
 			if(health1 <= 0){
@@ -128,7 +128,9 @@ public class FightState extends BasicGameState {
 		}
 		else
 		{
-			int dmg = currentMob.getMd().getDamage() - currentPlayer.getPD().getInv().getEqarmor().getDefence();
+			int dmg = currentMob.getMd().getDamage();
+			if(currentPlayer.getPD().getInv().getEqarmor() != null)
+				dmg -= currentPlayer.getPD().getInv().getEqarmor().getDefence();
 			actionMessage2 = currentMob.getMd().getName() + " Saldirdi, Hasar " + dmg;
 			waitFor(1000);
 			health2 -= dmg;
@@ -141,7 +143,9 @@ public class FightState extends BasicGameState {
 			colorAtack = Color.red;
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 			{
-				int dmg = currentPlayer.getPD().getDamage() + currentPlayer.getPD().getInv().getEqweapon().getDamage();
+				int dmg = currentPlayer.getPD().getDamage();
+				if(currentPlayer.getPD().getInv().getEqweapon() != null)
+					dmg += currentPlayer.getPD().getInv().getEqweapon().getDamage();
 				health1 -= dmg;
 				actionMessage1 = currentPlayer.getPD().getName() + " Saldirdi, Hasar " + dmg;
 				turn++;
@@ -155,7 +159,7 @@ public class FightState extends BasicGameState {
 				actionMessage2 = "";
 			}
 		}
-		
+
 		if(mousex > 700 && mousex < 820 && mousey > 500 && mousey < 524) // RETREAT
 		{
 			colorRetreat = Color.red;
@@ -199,11 +203,11 @@ public class FightState extends BasicGameState {
 	public void waitFor(long milis)
 	{
 		long t0,t1;
-        t0=System.currentTimeMillis();
-        do{
-            t1=System.currentTimeMillis();
-        }
-        while (t1-t0<milis);
+		t0=System.currentTimeMillis();
+		do{
+			t1=System.currentTimeMillis();
+		}
+		while (t1-t0<milis);
 	}
-	
+
 }

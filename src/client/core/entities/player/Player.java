@@ -20,7 +20,6 @@ public class Player extends LivingEntity {
 	private PlayerData pd;
 	private boolean activePlayer;
 	
-	
 	public static final int PLAYERMOVECOMP = 1;
 	public static final int PLAYERINTERACTCOMP = 2;
 	public static final int PLAYERRENDERCOMP = 3;
@@ -34,6 +33,21 @@ public class Player extends LivingEntity {
 		this.setImage(img);
 		this.setPosX(posx);
 		this.setPosY(posy);
+		
+		this.addComponent(new PlayerRenderComponent(PLAYERRENDERCOMP));
+		if(activePlayer){
+			this.addComponent(new PlayerMoveComponent(PLAYERMOVECOMP));
+			this.addComponent(new PlayerInteractionComponent(PLAYERINTERACTCOMP));
+			this.addComponent(new PlayerInventoryRenderComponent(PLAYERINVRENDERCOMP));
+			this.addComponent(new PlayerEquipmentRenderComponent(PLAYEREQRENDERCOMP));
+		}
+	}
+	
+	public Player(int id, PlayerData pd,  Image img, boolean activePlayer) {
+		super(id);
+		this.pd = pd;
+		this.activePlayer = activePlayer;
+		this.setImage(img);
 		
 		this.addComponent(new PlayerRenderComponent(PLAYERRENDERCOMP));
 		if(activePlayer){

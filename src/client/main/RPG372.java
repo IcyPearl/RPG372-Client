@@ -1,5 +1,6 @@
 package client.main;
 
+
 import java.io.IOException;
 
 import org.newdawn.slick.AppGameContainer;
@@ -41,6 +42,7 @@ public class RPG372 extends StateBasedGame {
 	public static final int FIGHT = 6;
 	public static final int REGISTER = 7;
 	public static final int LOOT = 8;
+	public static final int LOAD = 9;
 	public static GameInstance gameInstance;
 
 	public RPG372() {
@@ -56,7 +58,7 @@ public class RPG372 extends StateBasedGame {
 	}
 
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		RPG372.initTestGameInstance();
+		//RPG372.initTestGameInstance();
 		this.addState(new LoginState(LOGIN));
 		this.addState(new MainMenuState(MENU));
 		this.addState(new PlayMenuState(PLAYMENU));
@@ -65,6 +67,7 @@ public class RPG372 extends StateBasedGame {
 		this.addState(new TradeState(TRADE));
 		this.addState(new RegisterState(REGISTER));
 		this.addState(new LootState(LOOT));
+		this.addState(new LoadingState(LOAD));
 	}
 
 	public static void initTestGameInstance() throws SlickException{
@@ -121,14 +124,13 @@ public class RPG372 extends StateBasedGame {
 		}
 	}
 
-	public static void loadDB() throws SlickException{
+	public static void loadDB() throws SlickException {
 		ItemFactory.loadItems();
 		MobSpawner.loadMobs();
 		VendorSpawner.loadVendors();
 	}
 	
 	public static void initGameInstance() throws SlickException {
-		loadDB();
 		gameInstance = new GameInstance();
 		gameInstance.setCurrentPlayer(ServerConn.getPlayer());
 		gameInstance.setMap(ServerConn.getMap());

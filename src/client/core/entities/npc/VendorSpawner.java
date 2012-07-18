@@ -11,10 +11,7 @@ public class VendorSpawner {
 	private static ArrayList<Vendor> vendors;
 	
 	public static void loadVendors() throws SlickException {
-		vendors = new ArrayList<Vendor>();
-		for(int i = 1 ; i <= 5 ; i++){
-			vendors.add(ServerConn.getVendor(i));
-		}
+		vendors = ServerConn.getVendorList();
 	}
 	
 	

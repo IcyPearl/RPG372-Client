@@ -8,6 +8,7 @@ public class VendorData {
 	
 	private String name;
 	private VendorInventory inv;
+	private int rate;
 	
 	public VendorData(){
 		
@@ -27,5 +28,13 @@ public class VendorData {
 
 	public void setInv(VendorInventory inv) {
 		this.inv = inv;
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 }

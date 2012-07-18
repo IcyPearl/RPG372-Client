@@ -31,9 +31,14 @@ public class Map {
 	}
 	
 	public int get(int i, int j){
-		return grid[j][i];
+		return grid[i][j];
 	}
 	
+	/**
+	 * DO NOT USE ANYMORE!
+	 * @param mapFilePath
+	 * @throws IOException
+	 */
 	public void readMap(String mapFilePath) throws IOException{
 		BufferedReader bufRead = new BufferedReader(new FileReader(new File(mapFilePath)));
 		String currentLine = bufRead.readLine();

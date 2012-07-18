@@ -99,8 +99,7 @@ public class LoginState extends BasicGameState{
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				if(ServerConn.login(txt.getText(), txt2.getText())){
 					this.setInput(false);
-					//RPG372.initGameInstance(); //this should be done in loading state.
-					arg1.enterState(RPG372.MENU);
+					arg1.enterState(RPG372.LOAD);
 				}else{
 					//false login warning
 				}
