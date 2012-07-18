@@ -102,6 +102,10 @@ public class TradeState extends BasicGameState {
 				arg2.drawRect(pos[0], pos[1], 64, 64);
 			}
 		}
+		
+		font.drawString(vendinvx, vendinvy + invbg.getHeight()*2, "Item Name = " + vendinv.getItem(vendinvselected).getName(),Color.black);
+		font.drawString(vendinvx, vendinvy + invbg.getHeight()*2 + 24, "Item Value = " + vendinv.getItem(vendinvselected).getValue(),Color.black);
+		
 
 		font.drawString(plinvx, plinvy-50, currentPlayer.getPD().getName(),Color.black);
 		font.drawString(vendinvx, vendinvy-50, currentVendor.getVd().getName(),Color.black);

@@ -83,6 +83,27 @@ public class GamePlayState extends BasicGameState {
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			arg1.enterState(RPG372.MENU);
 		}
+		if(RPG372.gameInstance.getCurrentPlayer().getPosX() == RPG372.gameInstance.getMap().getX()-1 
+				&& RPG372.gameInstance.getCurrentPlayer().getPosY() == RPG372.gameInstance.getMap().getY()-1){	
+			if(in.isKeyPressed(Input.KEY_1)){
+				RPG372.changeMap(1);
+			}
+			if(in.isKeyPressed(Input.KEY_2)){
+				RPG372.changeMap(2);
+			}
+			if(in.isKeyPressed(Input.KEY_3)){
+				RPG372.changeMap(3);
+			}
+			if(in.isKeyPressed(Input.KEY_3)){
+				RPG372.changeMap(3);
+			}
+			if(in.isKeyPressed(Input.KEY_4)){
+				RPG372.changeMap(4);
+			}
+			if(in.isKeyPressed(Input.KEY_5)){
+				RPG372.changeMap(5);
+			}
+		}
 	}
 
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{

@@ -34,6 +34,7 @@ public class RegisterState extends BasicGameState
 	private Color colorFemale;
 
 	private int id;
+	private int gender;
 	
 	private Image background;
 	
@@ -58,6 +59,8 @@ public class RegisterState extends BasicGameState
 		color2 = Color.white;
 		colorMale = Color.white;
 		colorFemale = Color.white;
+		
+		gender = 0;
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg11, Graphics arg2) throws SlickException
@@ -92,6 +95,7 @@ public class RegisterState extends BasicGameState
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				colorMale =  new Color(247, 173, 36);
 				colorFemale = Color.white;
+				gender = 0;
 			}
 		}
 		else if(mousex > 400 && mousex < 500 && mousey > 500 && mousey < 524) // FEMALE
@@ -99,15 +103,16 @@ public class RegisterState extends BasicGameState
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				colorFemale =  new Color(247, 173, 36);
 				colorMale = Color.white;
+				gender = 1;
 			}
 		}
 		if(mousex > 200 && mousex < 330 && mousey > 600 && mousey < 624) // REGISTER
 		{
 			color1 =  new Color(247, 173, 36);
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				if(ServerConn.register(newUsername.getText(), newPassword.getText())){
+				if(ServerConn.register(newUsername.getText(), newPassword.getText(), gender)){
 					this.setInput(false);
-					arg1.enterState(RPG372.MENU);
+					arg1.enterState(RPG372.LOAD);
 				}
 			}
 			//Database iþlemleri

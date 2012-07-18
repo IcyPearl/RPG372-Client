@@ -89,7 +89,7 @@ public class FightState extends BasicGameState {
 		font.drawString(500, 450, "Level: " + currentPlayer.getPD().getLevel());
 		font.drawString(500, 500, "Health: " + health2);
 
-		font.drawString(700, 450, "ATACK",colorAtack);
+		font.drawString(700, 450, "ATTACK",colorAtack);
 		font.drawString(700, 500, "RETREAT",colorRetreat);
 
 		font.drawString(700, 200, actionMessage1);
@@ -123,7 +123,7 @@ public class FightState extends BasicGameState {
 		}
 		if( turn % 2 == 0)
 		{
-			turnMessage = "Sira Sende";
+			turnMessage = "It's your turn.";
 			actionMessage1 = "";
 		}
 		else
@@ -131,7 +131,9 @@ public class FightState extends BasicGameState {
 			int dmg = currentMob.getMd().getDamage();
 			if(currentPlayer.getPD().getInv().getEqarmor() != null)
 				dmg -= currentPlayer.getPD().getInv().getEqarmor().getDefence();
-			actionMessage2 = currentMob.getMd().getName() + " Saldirdi, Hasar " + dmg;
+			if(dmg < 0)
+				dmg = 0;
+			actionMessage2 = currentMob.getMd().getName() + " Attacked, For " + dmg + " damage.";
 			waitFor(1000);
 			health2 -= dmg;
 			turn++;
@@ -147,9 +149,9 @@ public class FightState extends BasicGameState {
 				if(currentPlayer.getPD().getInv().getEqweapon() != null)
 					dmg += currentPlayer.getPD().getInv().getEqweapon().getDamage();
 				health1 -= dmg;
-				actionMessage1 = currentPlayer.getPD().getName() + " Saldirdi, Hasar " + dmg;
+				actionMessage1 = currentPlayer.getPD().getName() + " Attacked, For " + dmg + " damage.";
 				turn++;
-				turnMessage = "Sira "+ currentMob.getMd().getName() + "da";
+				turnMessage = "It's "+ currentMob.getMd().getName() + "'s turn.";
 				try {
 					animation1();
 				} catch (InterruptedException e) {

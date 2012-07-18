@@ -139,8 +139,15 @@ public class RPG372 extends StateBasedGame {
 	}
 	
 	public static void changeMap(int mapId) throws SlickException{
+		gameInstance.clearMobsAndVendors();
 		gameInstance.setMap(ServerConn.getMap(mapId));
 		gameInstance.spawnMobs();
 		gameInstance.spawnVendor();
+	}
+	
+	public static void exitGame(boolean save){
+		if(save)
+			ServerConn.save(gameInstance.getCurrentPlayer());
+		System.exit(0);
 	}
 }

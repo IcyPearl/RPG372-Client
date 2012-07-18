@@ -6,15 +6,16 @@ package client.core.entities.player;
  */
 
 public class PlayerData {
-	
+
 	private int level;
 	private String name;
 	private int gender;
-	
+	private int exp;
+
 	private PlayerInventory inv;
-	
+
 	public PlayerData(){
-		
+
 	}
 
 	public int getDamage(){
@@ -37,7 +38,7 @@ public class PlayerData {
 		}	
 		return dmg;
 	}
-	
+
 	public int getMaxHealth() {
 		return level * 10;
 	}
@@ -77,5 +78,22 @@ public class PlayerData {
 	public void setGender(int gender) {
 		this.gender = gender;
 	}
-	
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void giveExp(int mobLevel) {
+		int gained = 0;
+		if(mobLevel <= level)
+			gained = 5;
+		else
+			gained = (mobLevel - level) * 10;
+		this.exp += gained;
+		if(this.exp >= 100){
+			level += 1;
+			this.exp -= 100;
+		}
+	}
+
 }

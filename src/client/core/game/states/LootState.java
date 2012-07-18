@@ -25,23 +25,23 @@ public class LootState extends BasicGameState {
 
 	private Player currentPlayer;
 	private Mob currentMob;
-	
+
 	private Image background;
-	
+
 	private Font awtFont;
 
 	private TrueTypeFont font;
-	
-	
+
+
 	private int mobinvselected;
 	private int plinvx, plinvy, mobinvy, mobinvx, midx, midy;
 
 	private boolean goldLooted;
-	
+
 	private Color colorLoot, colorExit;
-	
+
 	private Image invbg;
-	
+
 	private int id;
 
 	public LootState(int id){
@@ -53,21 +53,21 @@ public class LootState extends BasicGameState {
 		background = new Image("client/data/backgrounds/lootbg2.jpg");
 		awtFont = new Font("Times New Roman", Font.BOLD, 24);		
 		font = new TrueTypeFont(awtFont, false);
-		
+
 		mobinvselected = 0;
 	}
 
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		plinvx = 200;
 		plinvy = 200;
-		
+
 		mobinvx = 800;
 		mobinvy = 200;
-		
+
 		background.draw(0,0,1366,768);
 		invbg.draw(plinvx, plinvy, 2.0f);
 
-		
+
 		PlayerInventory plinv = currentPlayer.getPD().getInv();
 		ListIterator<Item> iterator = plinv.getItems().listIterator();
 		while(iterator.hasNext()){
@@ -77,9 +77,9 @@ public class LootState extends BasicGameState {
 			if(current != null)
 				current.getIcon().draw(pos[0], pos[1], 2.0f);
 		}
-		
+
 		font.drawString(plinvx, plinvy+ invbg.getHeight()*2, "Gold = " + plinv.getGold());
-		
+
 		invbg.draw(mobinvx, mobinvy,2.0f);
 		MobInventory mobinv = currentMob.getMd().getInv();
 		ListIterator<Item> iterator1 = mobinv.getItems().listIterator();
@@ -94,16 +94,21 @@ public class LootState extends BasicGameState {
 			}
 		}
 		
+		if(mobinv.getItem(mobinvselected) != null){
+			font.drawString(mobinvx, mobinvy + invbg.getHeight()*2, "Item Name = " + mobinv.getItem(mobinvselected).getName(),Color.white);
+			font.drawString(mobinvx, mobinvy + invbg.getHeight()*2 + 24, "Item Value = " + mobinv.getItem(mobinvselected).getValue(),Color.white);
+		}
+		
 		font.drawString(plinvx, plinvy-50, currentPlayer.getPD().getName());
 		font.drawString(mobinvx, mobinvy-50, currentMob.getMd().getName());
-		
+
 		midx = (mobinvx - 60 + plinvx + invbg.getWidth()*2) / 2;
 		midy = mobinvy;
-		
+
 		font.drawString(midx , midy, "LOOT",colorLoot);
-		
+
 		font.drawString(midx , midy+50, "EXIT",colorExit);
-		
+
 	}
 
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
@@ -114,11 +119,11 @@ public class LootState extends BasicGameState {
 		}
 		colorLoot = Color.white;
 		colorExit = Color.white;
-		
+
 		int mousex, mousey;
 		mousex = in.getMouseX();
 		mousey = in.getMouseY();
-		
+
 		if(mousex > midx && mousex < midx + 80 && mousey > midy && mousey < midy+24)
 		{
 			colorLoot = Color.red;
@@ -156,8 +161,13 @@ public class LootState extends BasicGameState {
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
 		container.getInput().clearKeyPressedRecord();
 		container.getInput().clearMousePressedRecord();
+		gainExp();
 	}
-	
+
+	public void gainExp(){
+		this.currentPlayer.getPD().giveExp(this.currentMob.getMd().getLevel());
+	}
+
 	public void lootGold(){
 		PlayerInventory plinv = currentPlayer.getPD().getInv();
 		if(!goldLooted){
@@ -165,7 +175,7 @@ public class LootState extends BasicGameState {
 			goldLooted = true;
 		}
 	}
-	
+
 	public void loot(){
 		lootGold();
 		MobInventory mobinv = currentMob.getMd().getInv();
@@ -180,26 +190,26 @@ public class LootState extends BasicGameState {
 		plinv.addItem(toTrade);
 		mobinv.removeItem(mobinvselected);
 	}
-	
+
 	private int[] getItemPos(int invx, int invy, int index) {
 		int[] pos = new int[2];
 		pos[0] = invx + 8 + 14 * (index%4) + (index%4)*64;
 		pos[1] = invy + 4 + 8 * (index/4) + (index/4)*64;
 		return pos;
 	}
-	
+
 	public void deleteMob(){
 		RPG372.gameInstance.getMobs().remove(currentMob);
 	}
-	
+
 	public void setPlayer(Player player){
 		this.currentPlayer = player;
 	}
-	
+
 	public void setMob(Mob mob){
 		this.currentMob = mob;
 	}
-	
+
 	public int getID() {
 		return id;
 	}

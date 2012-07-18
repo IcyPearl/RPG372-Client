@@ -38,6 +38,7 @@ public class PlayerEquipmentRenderComponent extends RenderComponent {
 			if(plinv.getEqarmor() != null){
 				plinv.getEqarmor().getIcon().draw(invx + 43, invy + 2);
 			}
+			gr.drawString("EXP = " + ((Player)this.owner).getPD().getExp(), invx, invy + 50);
 		}
 	}
 

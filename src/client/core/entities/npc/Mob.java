@@ -54,7 +54,7 @@ public class Mob extends LivingEntity {
 	}
 	
 	public Mob clone(){
-		Mob mob = new Mob(this.getId(), md, this.getPosX(), this.getPosY(), this.getImage());
+		Mob mob = new Mob(this.getId(), md.clone(), this.getPosX(), this.getPosY(), this.getImage());
 		return mob;
 	}
 

@@ -110,7 +110,7 @@ public class LoginState extends BasicGameState{
 			color2 = new Color(29, 55, 169);
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				this.setInput(false);
-				System.exit(0);
+				RPG372.exitGame(false);
 			}
 		}
 	}

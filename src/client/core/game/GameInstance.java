@@ -75,10 +75,10 @@ public class GameInstance {
 		while(mobs.size() < 3){
 			int random = (int) (Math.random() * 3);
 			Mob mob = null;
-			if(mapId < 4)
-				mob = MobSpawner.getMob(mapId * 3 + random + 1);
-			else if(mapId == 4)
-				mob = MobSpawner.getMob(13);
+			if(mapId <= 4){
+				mob = MobSpawner.getMob((mapId-1) * 3 + random);
+			}else if(mapId == 5)
+				mob = MobSpawner.getMob(12);
 			mobs.add(mob);
 		}
 	}
@@ -131,5 +131,9 @@ public class GameInstance {
 	public void setVendors(ArrayList<Vendor> vendors) {
 		this.vendors = vendors;
 	}
-
+	
+	public void clearMobsAndVendors(){
+		this.mobs = new ArrayList<Mob>();
+		this.vendors = new ArrayList<Vendor>();
+	}
 }

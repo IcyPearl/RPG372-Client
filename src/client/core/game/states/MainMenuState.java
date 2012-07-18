@@ -86,7 +86,7 @@ public class MainMenuState extends BasicGameState
 		{
 			color2 = Color.gray;
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				System.exit(0);
+				RPG372.exitGame(true);
 			}
 		}
 	}

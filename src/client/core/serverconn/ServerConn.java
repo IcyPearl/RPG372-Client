@@ -1,5 +1,6 @@
 package client.core.serverconn;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
@@ -19,6 +20,7 @@ import client.core.entities.player.Player;
 import client.core.entities.player.PlayerData;
 import client.core.entities.player.PlayerInventory;
 import client.core.map.Map;
+import client.main.RPG372;
 
 /**
  * Responsible for retrieving current state of game. These methods will be used
@@ -33,7 +35,7 @@ public class ServerConn {
 	private static int userId;
 
 	public static void main(String[] args) throws SlickException {
-		
+		addMap();
 	}
 
 	/**
@@ -59,15 +61,15 @@ public class ServerConn {
 	}
 
 	/**
-	 * Will register user to db. For now it doesnt work, because Can not issue
-	 * data manipulation statements with executeQuery(). Selcuk bakacak :D.
-	 * 
+	 * Registers user to DB.
 	 * @param username
 	 * @param password
 	 * @return
 	 */
+	//COMPLETE
 
-	public static boolean register(String username, String password) {
+	public static boolean register(String username, String password, int gender) {
+		int invId, userID;
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT userId FROM RPG372DB_User WHERE userName='"+username+"'");
 		//Existing User
@@ -76,10 +78,18 @@ public class ServerConn {
 
 		qe.updateQuery("INSERT INTO RPG372DB_User (userName,password) VALUES ('" + username + "','"
 				+ password + "')");
-		//Bu Ne?
+		qe.SendQuery("SELECT userId FROM RPG372DB_User WHERE userName='"
+				+ username + "' AND password='" + password + "'");
+		userID = Integer.parseInt(qe.vals.get(0).get(0));
+		qe.SendQuery("SELECT invID FROM RPG372DB_Inventory ORDER BY invID DESC");
+		invId = Integer.parseInt(qe.vals.get(0).get(0)) + 1;
+		for(int i = 0 ; i <= 17 ; i++){
+			qe.updateQuery("INSERT INTO RPG372DB_Inventory VALUES (" + invId + "," + i + "," + 0 + ")");
+		}
+		qe.updateQuery("INSERT INTO RPG372DB_Player VALUES ('" + username + "'," + 0 +  "," + 0 + "," 
+				+ 1 + "," + invId + "," + userID + "," + 1 + "," + gender + "," + 100 + ")");
+
 		return(login(username, password));
-		//ekledikten sonra dogrulugunu kontrol edip logine sokmadan direk oyuna gircen
-		//Hemde dogru eklenip eklenmedigini kontrol etmis olcaz. O amacla orda o.
 	}
 
 	/**
@@ -103,7 +113,8 @@ public class ServerConn {
 		pd.setLevel(Integer.parseInt(qe.getFirst().get(9)));
 		gender = Integer.parseInt(qe.getFirst().get(10));
 		gold = Integer.parseInt(qe.getFirst().get(11));
-		pd.setInv(getPlayerInventory(invId, gold));
+		PlayerInventory plinv = getPlayerInventory(invId, gold);
+		pd.setInv(plinv);
 		pd.setGender(gender);
 		Image img = new Image("client/data/player/player" + (gender+1) + ".png");
 		Player player = new Player(userId, pd, posx, posy, img, true);
@@ -161,18 +172,16 @@ public class ServerConn {
 		QueryExecutor qe = new QueryExecutor();
 		qe.SendQuery("SELECT * FROM RPG372DB_Inventory WHERE invId='" + invId
 				+ "'");
-		PlayerInventory pi = new PlayerInventory(null);
+		PlayerInventory plinv = new PlayerInventory(null);
 		int tempId;
 		for (int i = 0; i < 16; i++) {
 			tempId = Integer.parseInt(qe.vals.get(i).get(2));
 			if (tempId == 0)
 				continue;
 			else {
-				pi.addItem(ItemFactory.getItem(tempId));
+				plinv.addItem(ItemFactory.getItem(tempId));
 			}
 		}
-
-		PlayerInventory plinv = new PlayerInventory(null);
 		plinv.setEqarmor((Armor) ItemFactory.getItem(Integer.parseInt(qe.vals.get(16)
 				.get(2))));
 		plinv.setEqweapon((Weapon) ItemFactory.getItem(Integer.parseInt(qe.vals.get(17)
@@ -315,7 +324,7 @@ public class ServerConn {
 			if(items.get(i).get(1).equals("1")){
 				item.setIcon(new Image("client/data/items/misc/misc1.png"));
 				rtrItems.set(itemId, item);
-			//IF ARMOR
+				//IF ARMOR
 			}else if(items.get(i).get(1).equals("2")){
 				item.setIcon(new Image("client/data/items/armor/Armor"+(itemId%10)+".png"));
 				Armor armor = item.getArmor();
@@ -330,8 +339,60 @@ public class ServerConn {
 				rtrItems.set(itemId, weapon);
 			}
 		}
-
 		return rtrItems;
+	}
 
+	public static void save(Player player){
+		int posx, posy, mapId, level, gold;
+		posx = player.getPosX();
+		posy = player.getPosY();
+		mapId = RPG372.gameInstance.getMap().getId();
+		level = player.getPD().getLevel();
+		gold = player.getPD().getInv().getGold();
+		QueryExecutor qe = new QueryExecutor();
+		qe.updateQuery("UPDATE RPG372DB_Player SET posX = " + posx + ",posY = " + posy + 
+				",mapID = " + mapId + ",level = " + level + ",gold = " + gold 
+				+ " WHERE userID = " + userId);
+		PlayerInventory plinv = player.getPD().getInv();
+		qe.SendQuery("SELECT invID FROM RPG372DB_Player WHERE userID = " + userId );
+		int invId = Integer.parseInt(qe.getFirst().get(0));
+		for(int i = 0 ; i < 18 ; i++){
+			if(i < 16){
+				int itemID = 0 ;
+				if(plinv.getItem(i) != null)
+					itemID = plinv.getItem(i).getId();
+				qe.updateQuery("UPDATE RPG372DB_Inventory SET itemID = " + itemID +
+						" WHERE invID = " + invId + " AND slotID = " + i );
+			}else if(i == 16){
+				int itemID = 0 ;
+				if(plinv.getEqarmor() != null)
+					itemID = plinv.getEqarmor().getId();
+				qe.updateQuery("UPDATE RPG372DB_Inventory SET itemID = " + itemID +
+						" WHERE invID = " + invId + " AND slotID = " + i );
+			}else if(i == 17){
+				int itemID = 0 ;
+				if(plinv.getEqweapon() != null)
+					itemID = plinv.getEqweapon().getId();
+				qe.updateQuery("UPDATE RPG372DB_Inventory SET itemID = " + itemID +
+						" WHERE invID = " + invId + " AND slotID = " + i );
+			}
+		}
+
+	}
+
+	public static void addMap(){
+		Map a = new Map(20, 14, 0);
+		try {
+			a.readMap("src/client/data/map/map4.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String sql = "";
+		for (int i = 0; i < a.getY(); i++) {
+			for (int j = 0; j < a.getX(); j++) {
+				sql += "INSERT INTO RPG372DB_Cell VALUES("+j+","+i+","+a.get(i, j)+","+"4);\n";
+			}
+		}
+		System.out.println(sql);
 	}
 }
