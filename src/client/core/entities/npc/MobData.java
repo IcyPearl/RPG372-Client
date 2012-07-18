@@ -75,4 +75,11 @@ public class MobData {
 		this.inv = inv;
 	}
 	
+	public MobData clone(){
+		MobData md = new MobData();
+		md.setInv(inv.clone());
+		md.setLevel(level);
+		md.setName(name);
+		return md;
+	}
 }

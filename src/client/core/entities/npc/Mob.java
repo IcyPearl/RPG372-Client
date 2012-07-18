@@ -25,6 +25,8 @@ public class Mob extends LivingEntity {
 		this.setImage(img);
 		this.addComponent(new MobMoveComponent(MOBMOVECOMP));
 		this.addComponent(new MobRenderComponent(MOBRENDERCOMP));
+		this.setPosX(10);
+		this.setPosY(10);
 		moved = -1;
 	}
 	
@@ -49,6 +51,11 @@ public class Mob extends LivingEntity {
 
 	public void setMoved(long moved) {
 		this.moved = moved;
+	}
+	
+	public Mob clone(){
+		Mob mob = new Mob(this.getId(), md, this.getPosX(), this.getPosY(), this.getImage());
+		return mob;
 	}
 
 }

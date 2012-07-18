@@ -72,6 +72,10 @@ public class Inventory {
 		items.set(n, item);
 	}
 	
+	public void setItems(ArrayList<Item> items){
+		this.items = items;
+	}
+	
 	public ArrayList<Item> getItems(){
 		return items;
 	}

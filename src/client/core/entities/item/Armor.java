@@ -19,5 +19,11 @@ public class Armor extends Item {
 	public void setDefence(int defence) {
 		this.defence = defence;
 	}
+	
+	public Armor clone(){
+		Armor armor = super.clone().getArmor();
+		armor.setDefence(defence);
+		return armor;
+	}
 
 }

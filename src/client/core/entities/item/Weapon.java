@@ -19,5 +19,11 @@ public class Weapon extends Item {
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
+	
+	public Weapon clone(){
+		Weapon weapon = super.clone().getWeapon();
+		weapon.setDamage(this.damage);
+		return weapon;
+	}
 
 }

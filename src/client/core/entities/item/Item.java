@@ -63,4 +63,12 @@ public class Item {
 		return weapon;
 	}
 	
+	public Item clone(){
+		Item item = new Item(id);
+		item.setIcon(this.icon);
+		item.setName(this.name);
+		item.setValue(this.value);
+		return item;
+	}
+	
 }

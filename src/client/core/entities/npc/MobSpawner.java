@@ -16,6 +16,6 @@ public class MobSpawner {
 	
 	public static Mob getMob(int mobId){
 		Mob mob = mobs.get(mobId);
-		return mob;
+		return mob.clone();
 	}
 }

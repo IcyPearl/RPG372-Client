@@ -8,5 +8,11 @@ public class MobInventory extends Inventory {
 	public MobInventory(LivingEntity owner) {
 		super(owner);
 	}
+	
+	public MobInventory clone(){
+		MobInventory mobinv = new MobInventory(this.getOwner());
+		mobinv.setItems(this.getItems());
+		return mobinv;
+	}
 
 }

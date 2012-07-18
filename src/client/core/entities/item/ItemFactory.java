@@ -17,6 +17,9 @@ public class ItemFactory {
 	
 	public static Item getItem(int itemId){
 		Item item = items.get(itemId);
-		return item;
+		if(item == null)
+			return null;
+		else
+			return item.clone();
 	}
 }
