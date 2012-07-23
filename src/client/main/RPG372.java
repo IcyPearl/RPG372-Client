@@ -37,7 +37,7 @@ public class RPG372 extends StateBasedGame {
 	public static final int LOGIN = 1;
 	public static final int GAMEPLAY = 2;
 	public static final int MENU = 3;
-	public static final int PLAYMENU = 4;
+	public static final int CONTROLS = 4;
 	public static final int TRADE = 5;
 	public static final int FIGHT = 6;
 	public static final int REGISTER = 7;
@@ -61,7 +61,7 @@ public class RPG372 extends StateBasedGame {
 		//RPG372.initTestGameInstance();
 		this.addState(new LoginState(LOGIN));
 		this.addState(new MainMenuState(MENU));
-		this.addState(new PlayMenuState(PLAYMENU));
+		this.addState(new ControlsState(CONTROLS));
 		this.addState(new GamePlayState(GAMEPLAY));
 		this.addState(new FightState(FIGHT));
 		this.addState(new TradeState(TRADE));

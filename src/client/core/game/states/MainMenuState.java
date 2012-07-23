@@ -79,7 +79,7 @@ public class MainMenuState extends BasicGameState
 		{
 			color1 = Color.gray;
 			if(in.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				//Option state
+				arg1.enterState(RPG372.CONTROLS);
 			}
 		}
 		if(mousex > 140 && mousex < 270 && mousey > 620 && mousey < 644) // Quit
